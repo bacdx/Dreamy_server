@@ -1,0 +1,25 @@
+{
+ "san_pham":{
+    "id":0,
+    "ten":"English",
+    "soluong":2000,
+    "manhasanxuat":1,
+    "ngaynhap":"2003/10/10 23:00:00",
+    "ghichu":"bo co day dan hinh in sac net",
+    "gia":2000,
+    "trangthai":true,
+    "anhdaidien":"dddddd",
+    "size":{
+
+    }
+ }   
+ ,
+ "color":{
+    "id":0,
+    "masanpham":0,
+    "title":"đỏ",
+    "mamau":"#00000",
+    "img":""
+ }
+
+}
