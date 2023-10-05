@@ -23,8 +23,8 @@ app.set('view engine', 'hbs');
 //set path views
 app.set('views',path.join(__dirname,"\\src\\app\\views"))
 
-app.use(express.static(path.join(__dirname,"\\src\\materia\\img")))
-
+app.use(express.static(path.join(__dirname,"\\src\\app\\resources")))
+console.log(path.join(__dirname,"\\src\\app\\resources\\img\\logo.png"))
 console.log()
 app.use(express.urlencoded({
 extended: true

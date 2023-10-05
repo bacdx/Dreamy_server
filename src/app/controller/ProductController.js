@@ -1,5 +1,5 @@
 const con = require('../../connect/connectmysql');
-const { base64toBolb, base64toBolb,getKey } = require('../../untl')
+const { bytetoBase64, base64toBolb,getKey } = require('../../untl')
 class ProductController {
 
     index(req, res) {
@@ -20,11 +20,11 @@ class ProductController {
 
             const data = result;
             data.forEach(element => {
-                element.anh_dai_dien = blobtoBase64(element.anh_dai_dien)
+                element.anh_dai_dien = bytetoBase64(element.anh_dai_dien)
             });
             con.query("select * from anh_san_pham ;", (err, result) => {
               
-                 const img = blobtoBase64(result[0].img);
+                 const img = bytetoBase64(result[0].img);
                data.forEach((data) => {
                 data.img=img;
                })

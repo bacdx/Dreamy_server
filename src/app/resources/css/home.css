@@ -59,7 +59,7 @@
     transition: all 0.3s ease;
   }
   
-  /*----------------page-wrapper----------------*/
+
   
   .page-wrapper {
     height: 100vh;
@@ -77,7 +77,7 @@
     background: #1e2229;
   }
   
-  /*----------------toggeled sidebar----------------*/
+
   
   .page-wrapper.toggled .sidebar-wrapper {
     left: 0px;
@@ -88,7 +88,7 @@
       padding-left: 300px;
     }
   }
-  /*----------------show sidebar button----------------*/
+
   #show-sidebar {
     position: fixed;
     left: 0;
@@ -100,7 +100,7 @@
   .page-wrapper.toggled #show-sidebar {
     left: -40px;
   }
-  /*----------------sidebar-wrapper----------------*/
+
   
   .sidebar-wrapper {
     width: 260px;
@@ -122,7 +122,7 @@
     text-decoration: none;
   }
   
-  /*----------------sidebar-content----------------*/
+
   
   .sidebar-content {
     max-height: calc(100% - 30px);
@@ -135,7 +135,7 @@
     overflow-y: hidden;
   }
   
-  /*--------------------sidebar-brand----------------------*/
+
   
   .sidebar-wrapper .sidebar-brand {
     padding: 10px 20px;
@@ -153,7 +153,7 @@
     cursor: pointer;
     font-size: 20px;
   }
-  /*--------------------sidebar-header----------------------*/
+
   
   .sidebar-wrapper .sidebar-header {
     padding: 20px;
@@ -197,14 +197,13 @@
     margin-right: 4px;
     color: #5cb85c;
   }
-  
-  /*-----------------------sidebar-search------------------------*/
+
   
   .sidebar-wrapper .sidebar-search > div {
     padding: 10px 20px;
   }
   
-  /*----------------------sidebar-menu-------------------------*/
+
   
   .sidebar-wrapper .sidebar-menu {
     padding-bottom: 10px;
@@ -303,7 +302,7 @@
     right: 17px;
   }
   
-  /*--------------------------side-footer------------------------------*/
+
   
   .sidebar-footer {
     position: absolute;
@@ -348,7 +347,7 @@
     animation: sonar 1.5s infinite;
   }
   
-  /*--------------------------page-content-----------------------------*/
+
   
   .page-wrapper .page-content {
     display: inline-block;
@@ -365,7 +364,7 @@
     overflow-x: hidden;
   }
   
-  /*------scroll bar---------------------*/
+
   
   ::-webkit-scrollbar {
     width: 5px;
@@ -402,7 +401,7 @@
   }
   
   
-  /*-----------------------------chiller-theme-------------------------------------------------*/
+
   
   .chiller-theme .sidebar-wrapper {
       background: #31353D;

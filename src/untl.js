@@ -19,6 +19,6 @@ Object.keys.forEach(key=>{
 return null;
 }
 
-module.exports={blobtoBase64,base64toBolb,getKey};
+module.exports={bytetoBase64,base64toBolb,getKey};
 
 
