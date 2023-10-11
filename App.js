@@ -1,4 +1,5 @@
 var http = require('http');
+var formidable = require('formidable');
  const con = require('./src/connect/connectmysql');
 var AcessModel=require('./src/model/AcessModel');
 const express = require('express');
@@ -11,8 +12,8 @@ const routes = require('./src/routes/route');
 
 
 con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
+  
+  console.log(err);
 });
 //set view engine
 app.engine('hbs', engine({
