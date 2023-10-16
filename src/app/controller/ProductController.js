@@ -10,23 +10,36 @@ class ProductController {
             const form = formidable({});
             const [fields, files] = await form.parse(req);
             console.log(fields);
-              
+
             const objFiles = files.filetoupload[0];
             const base64Array = files.filetoupload.map(file => {
                 fs.readFile(file.filepath, async (err, data) => {
 
                     const base64 = "data:" + objFiles.mimetype + ";base64," + data.toString('base64');
                     return base64;
-                    
+
                 })
 
-
-                con.query("insert into san_pham (ten,manhasanxuat ,maloai ,ngaynhap ,soluong , ghichu , gia )value ('"+fields.tensanpham[0]+"',1,"+fields.loaisanpham[0]+",'2023-11-11 12:30:00',200,'"+ fields.note[0]+"',"+fields.gia[0]+");", function (err, result) {
+                // truy van san pham
+                con.query("insert into san_pham (ten,manhasanxuat ,maloai ,ngaynhap ,soluong , ghichu , gia )value ('" + fields.tensanpham[0] + "',1," + fields.loaisanpham[0] + ",'2023-11-11 12:30:00',200,'" + fields.note[0] + "'," + fields.gia[0] + ");", function (err, result) {
                     if (err) throw err;
-                    const id=result.insertId;
+                    const id = result.insertId;
                     console.log(result)
+                    
+                    for (let i = 0; i < fields.color.length; i++) {
+                        con.query("INSERT INTO chi_tiet_san_pham (masanpham,soluong) VALUES (?,?)", [id, fields.soluong[i]], function (err, result) {
+                            // truy van mau va size 
+                            con.query("INSERT INTO color (mamau,title,img,mact) VALUES (?,?,?,?)", [id, fields.soluong[i], null, result.insertId])
+                            con.query("INSERT INTO color (title,mact) VALUES (?,?,?,?)", [id, fields.soluong[i], result.insertId])
 
-                  });
+                        })
+
+                    }
+
+
+                });
+
+
 
             });
 

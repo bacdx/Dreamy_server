@@ -8,5 +8,6 @@ router.get("/sanpham",ApiController.getSanPham)
 router.get("/colors",ApiController.getColorbyMaSanPham)
 router.get("/sizes",ApiController.getSizeByMaSanPham)
 router.get("/comments",ApiController.getCommentsByMaSanPham)
-router.get("/contents",ApiController.getContentsByMaBinhLuan)
+router.get("/hoadonkhachhang",ApiController.getContentsByMaBinhLuan)
+router.get("/chitiethoadon",ApiController.getContentsByMaBinhLuan)
 module.exports=router;
