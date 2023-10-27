@@ -5,11 +5,20 @@ return new Blob([byteArray], {type: 'text/plain'})
 }
 
 
-const blobtoBase64=(blob)=> {
+const bytetoBase64=(bytes)=> {
     const decoder = new TextDecoder();
-    return  decoder.decode(blob);
+    return  decoder.decode(bytes);
     
     }
-module.exports={blobtoBase64,base64toBolb};
+const getKey=(obj,name)=>{
+Object.keys.forEach(key=>{
+    if(key==name){
+        return name;
+    }
+})
+return null;
+}
+
+module.exports={bytetoBase64,base64toBolb,getKey};
 
 
