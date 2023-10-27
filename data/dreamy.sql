@@ -1,3 +1,4 @@
+-- cau lenh xoa database
 drop database dreamy;
 
 
@@ -5,25 +6,29 @@ create database dreamy;
 use  dreamy;
 
 
+create table san_pham(
+id bigint not null auto_increment primary key,
+ten nvarchar(50),
+ manhasanxuat bigint,
+ maloai bigint,
+ ngaynhap datetime,
+ ghichu text,
+ gia bigint);
+ 
+ select san_pham.ten,san_pham.gia,nha_san_xuat.name,san_pham.ghichu from san_pham inner join nha_san_xuat on san_pham.manhasanxuat=nha_san_xuat.id  limit 20;
 create table color(
 id bigint not null auto_increment primary key,
-mact bigint ,
+masp bigint ,
 title text,
 mamau text,
 img blob);
 
 create table size(
 id bigint not null auto_increment primary key,
-mact bigint ,
+masp bigint ,
 title text);
 
- create table chi_tiet_san_pham(
- id bigint not null auto_increment primary key,
- masp bigint,
- macolor bigint ,
- masize bigint,
- soluong integer
- );
+
 create table media_comment(
 id bigint not null auto_increment primary key,
 macomment bigint,
@@ -41,14 +46,7 @@ id bigint not null auto_increment primary key,
 ten text,
 note text);
 
-create table san_pham(
-id bigint not null auto_increment primary key,
-ten nvarchar(50),
- manhasanxuat bigint,
- maloai bigint,
- ngaynhap datetime,
- ghichu text,
- gia bigint);
+
  
  create table anh_san_pham(
 id bigint not null auto_increment primary key,
@@ -73,7 +71,6 @@ img blob);
  
  create table chi_tiet_nhap(
  id bigint not null auto_increment primary key,
-masanpham bigint,
 soluong int,
 dongia bigint,
 ghichu text,
@@ -95,9 +92,7 @@ ngay datetime,
 tongtien bigint);
 
 
-create table gioi_tinh (
-id bigint not null auto_increment primary key,
-loaigioitinh text );
+
 
 create table quyen(
 id bigint not null auto_increment primary key,
@@ -140,18 +135,16 @@ address nvarchar(50),
 note nvarchar(200));
 
 
-ALTER TABLE chi_tiet_san_pham ADD CONSTRAINT fk_masanpham_chitietsanpham FOREIGN KEY (masanpham) REFERENCES san_pham(id);
-ALTER TABLE chi_tiet_san_pham ADD CONSTRAINT fk_masanpham_color FOREIGN KEY (macolor) REFERENCES color(id);
-ALTER TABLE chi_tiet_san_pham ADD CONSTRAINT fk_masanpham_size FOREIGN KEY (masize) REFERENCES size(id);
+ALTER TABLE color ADD CONSTRAINT fk_masanpham_color FOREIGN KEY (masp) REFERENCES san_pham(id);
+ALTER TABLE size ADD CONSTRAINT fk_masanpham_size FOREIGN KEY (masp) REFERENCES san_pham(id);
 ALTER TABLE binh_luan ADD CONSTRAINT fk_masanpham_id FOREIGN KEY (masanpham) REFERENCES san_pham(id);
 ALTER TABLE media_comment ADD CONSTRAINT fk_mbinhluan FOREIGN KEY (macomment) REFERENCES binh_luan(id);
-ALTER TABLE loai_san_pham ADD CONSTRAINT fk_masanpham_loai FOREIGN KEY (masanpham) REFERENCES san_pham(id);
+ALTER TABLE san_pham ADD CONSTRAINT fk_masanpham_loai FOREIGN KEY (maloai) REFERENCES loai_san_pham(id);
 ALTER TABLE khuyen_mai ADD CONSTRAINT fk_masanpham_khuyenmai FOREIGN KEY (masanpham) REFERENCES san_pham(id);
 ALTER TABLE chi_tiet_nhap ADD CONSTRAINT fk_masanpham_nhap FOREIGN KEY (masanpham) REFERENCES san_pham(id);
-ALTER TABLE chi_tiet_hoa_don_khach_hang ADD CONSTRAINT fk_masanpham_hoadonkhachhang FOREIGN KEY (masanpham) REFERENCES san_pham(id);
-ALTER TABLE chi_tiet_hoa_don_khach_hang ADD CONSTRAINT fk_mahoadon_hoadonkhachhang FOREIGN KEY (mahoadon) REFERENCES hoa_don_khach_hang(id);
+ALTER TABLE chi_tiet_hoa_don ADD CONSTRAINT fk_masanpham_hoadonkhachhang FOREIGN KEY (masanpham) REFERENCES san_pham(id);
+ALTER TABLE chi_tiet_hoa_don ADD CONSTRAINT fk_mahoadon_hoadonkhachhang FOREIGN KEY (mahoadon) REFERENCES hoa_don_khach_hang(id);
 ALTER TABLE hoa_don_khach_hang ADD CONSTRAINT fk_makhachhang_hoadonkhachhang FOREIGN KEY (makhachhang) REFERENCES khachhang(id);
-ALTER TABLE khachhang ADD CONSTRAINT fk_magioitinh_khachhang FOREIGN KEY (magioitinh) REFERENCES gioi_tinh(id);
 ALTER TABLE chi_tiet_nhap ADD CONSTRAINT fk_mahoadon_nhap FOREIGN KEY (mahoadon) REFERENCES hoa_don_nhap(id);
 ALTER TABLE hoa_don_nhap ADD CONSTRAINT fk_manhanvien_nhap FOREIGN KEY (manhanvien) REFERENCES nhanvien(id);
 ALTER TABLE san_pham ADD CONSTRAINT fk_manhasanxuat_sanpham FOREIGN KEY (manhasanxuat) REFERENCES nha_san_xuat(id);
@@ -179,3 +172,6 @@ SELECT * FROM user;
 CREATE USER 'root'@'localhost' IDENTIFIED BY 'YES';
 GRANT ALL ON *.* to 'localhost'@'root';
 -- ALTER USER 'root'@'BAC' IDENTIFIED BY 'YES';
+
+
+select * from size where masp=8;

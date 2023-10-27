@@ -14,6 +14,7 @@ app.use('/product',product);
 
 app.use('/api',api);
 
+
 app.use('/notification',notification);
 
 app.get('/', function(req, res){

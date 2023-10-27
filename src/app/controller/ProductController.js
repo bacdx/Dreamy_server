@@ -1,3 +1,4 @@
+const { log } = require('console');
 const con = require('../../connect/connectmysql');
 const { bytetoBase64, base64toBolb, getKey } = require('../../untl')
 var { formidable } = require('formidable');
@@ -50,7 +51,7 @@ class ProductController {
 
         }
 
-        const sql = "select san_pham.ten,san_pham.soluong,san_pham.gia,nha_san_xuat.name,san_pham.ghichu from san_pham inner join nha_san_xuat on san_pham.manhasanxuat=nha_san_xuat.id  limit 20;";
+        const sql = "select san_pham.ten,san_pham.gia,nha_san_xuat.name,san_pham.ghichu from san_pham inner join nha_san_xuat on san_pham.manhasanxuat=nha_san_xuat.id  limit 20;";
         const sqlLoaiSp = "select* from loai_san_pham ";
 
         con.query(sqlLoaiSp, function (err, result) {
@@ -60,8 +61,10 @@ class ProductController {
 
 
             con.query(sql, function (err, result, fields) {
-
+             
                 const data = result;
+              
+
                 data.forEach(element => {
                     element.anh_dai_dien = bytetoBase64(element.anh_dai_dien)
                 });

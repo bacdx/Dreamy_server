@@ -4,31 +4,30 @@ class ApiConController {
 
         const query = req.query;
         if (Object.keys(query).length>0) {
-          
+            const sql = "select  * from loai_san_pham";
             if (query.ma_loai != undefined, query.ma_loai != null) {
-                const sql = "select  * from loai_san_pham  where id=? ;";
-               
-                con.query(sql,[query.ma_loai], function (err, result, fields) {
-        
-                    const data = result;
-                
-        
-                    if (data == undefined) {
-                        const error = {
-                            error: "Ko tim thay Loai san pham"
-                        }
-                        res.send(error);
-                    } else {
-        
-        
-                        res.send(data);
-        
-                    }
-        
-        
-                })
-        
+               sql+=" where id=? "  
             }
+
+            con.query(sql,[query.ma_loai], function (err, result, fields) {
+        
+                const data = result;
+            
+    
+                if (data == undefined) {
+                    const error = {
+                        error: "Ko tim thay Loai san pham"
+                    }
+                    res.send(error);
+                } else {
+    
+    
+                    res.send(data);
+    
+                }
+    
+    
+            })
             
         
 
@@ -38,18 +37,18 @@ class ApiConController {
     }
 
     async getSanPham (req, res) {
-        
-        console.log(req.query);
-        const query = req.query;
-        const where = " ";
-        if (Object.keys(query).length>0) {
-            where+="where "
-            if (query.ma_loai != undefined, query.ma_loai != null) {
-                where += "ma_loai=" + query.ma_loai;
-            }
+        const sql="select * from san_pham"
+        // console.log(req.query);
+        // const query = req.query;
+        // const where = " ";
+        // if (Object.keys(query).length>0) {
+        //     where+="where "
+        //     if (query.ma_loai != undefined, query.ma_loai != null) {
+        //         where += "ma_loai=" + query.ma_loai;
+        //     }
             
           
-        }
+        // }
 
     
        
@@ -67,12 +66,13 @@ class ApiConController {
             } else {
 
 
-                res.send(data);
+                res.json(data);
 
             }
 
 
         })
+       
 
     }
 
@@ -80,7 +80,7 @@ class ApiConController {
             const query =req.query;
             if(Object.keys(query).length>0){
                 if(query.masanpham!=undefined&&query.masanpham!=null){
-                    const sql = "select * from color where masanpham="+ query.masanpham +";";
+                    const sql = "select * from color where masp="+ query.masanpham +";";
                     con.query(sql, function(err,result,fields){
                         if(err) throw res.json(err);
                         res.json(result)
@@ -90,21 +90,27 @@ class ApiConController {
             }
     }
 
-    async getSizeByMaSanPham(){
+
+
+    async getSizeByMaSanPham(req,res){
         const query =req.query;
+    
         if(Object.keys(query).length>0){
             if(query.masanpham!=undefined&&query.masanpham!=null){
-                const sql = "select * from size where masanpham="+ query.masanpham +";";
+                const sql = "select * from size where masp="+ query.masanpham +";";
                 con.query(sql, function(err,result,fields){
                     if(err) throw res.json(err);
                     res.json(result)
                 });
                 
             }
+        }else{
+            res.send(400)
         }
+       
     }
 
-    async getCommentsByMaSanPham(){
+    async getCommentsByMaSanPham(req,res){
         const query =req.query;
         if(Object.keys(query).length>0){
             if(query.masanpham!=undefined&&query.masanpham!=null){
@@ -117,7 +123,7 @@ class ApiConController {
             }
         }
     }
-    async getContentsByMaBinhLuan(){
+    async getContentsByMaBinhLuan(req,res){
         const query =req.query;
         if(Object.keys(query).length>0){
             if(query.masanpham!=undefined&&query.mabinhluan!=null){
