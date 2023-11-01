@@ -174,4 +174,8 @@ GRANT ALL ON *.* to 'localhost'@'root';
 -- ALTER USER 'root'@'BAC' IDENTIFIED BY 'YES';
 
 
-select * from size where masp=8;
+select s.id,s.ten,s.gia ,n.name  from san_pham  as s inner join nha_san_xuat as n on s.manhasanxuat=n.id = 1  limit 20;
+
+select  count(*) as tong  from san_pham  ;
+select * from media_comment where macomment =" 3 ";
+select * from chi_tiet_hoa_don as c  inner join hoa_don_khach_hang as h on c.mahoadon=h.id    where  c.mahoadon =1 ;

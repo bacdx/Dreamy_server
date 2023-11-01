@@ -97,5 +97,6 @@ VALUES (300000, 'Áo Khoắc lông cừu', 1)
 
 
 INSERT INTO media_comment (macomment, content)
-VALUES (1,'')
+VALUES (3,'dsffdssdffsd'),
+ (3,'dsffdssdffsd')
 ;
