@@ -15,7 +15,7 @@ ten nvarchar(50),
  ghichu text,
  gia bigint);
  
- select san_pham.ten,san_pham.gia,nha_san_xuat.name,san_pham.ghichu from san_pham inner join nha_san_xuat on san_pham.manhasanxuat=nha_san_xuat.id  limit 20;
+ 
 create table color(
 id bigint not null auto_increment primary key,
 masp bigint ,
@@ -71,6 +71,7 @@ img blob);
  
  create table chi_tiet_nhap(
  id bigint not null auto_increment primary key,
+ masanpham bigint,
 soluong int,
 dongia bigint,
 ghichu text,
