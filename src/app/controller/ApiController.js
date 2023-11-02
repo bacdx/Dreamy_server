@@ -121,6 +121,7 @@ class ApiConController {
             }
         }
     }
+
     async getContentsByMaBinhLuan(req, res) {
         const query = req.query;
         if (Object.keys(query).length > 0) {
@@ -218,14 +219,14 @@ class ApiConController {
 
 
 
-            const sql = "select s.id,s.ten,s.gia ,n.name from san_pham as s inner join nha_san_xuat as n on s.manhasanxuat=n.id  " + where + "  limit 20;";
+            const sql = "select * from san_pham as s inner join nha_san_xuat as n on s.manhasanxuat=n.id  " + where + "  limit 20;";
             console.log(sql);
             con.query(sql, function (err, result, fields) {
 
                 const data = result;
-                data.forEach(element => {
-                    element.anh_dai_dien = bytetoBase64(element.anh_dai_dien)
-                });
+                // data.forEach(element => {
+                //     element.anh_dai_dien = bytetoBase64(element.anh_dai_dien)
+                // });
 
 
 
