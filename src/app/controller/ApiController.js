@@ -249,6 +249,49 @@ class ApiConController {
 
         
     }
+
+    async getImgSanPham(req, res) {
+
+        let query = req.query;
+        let where = "where ";
+       
+            if (query.masanpham != undefined, query.masanpham != null) {
+                where += "masanpham=" + query.masanpham;
+            }   
+
+
+
+            const sql = "select * from anh_san_pham " + where + "  ;";
+            console.log(sql);
+            con.query(sql, function (err, result, fields) {
+
+                const data = result;
+                // data.forEach(element => {
+                //     element.anh_dai_dien = bytetoBase64(element.anh_dai_dien)
+                // });
+
+
+
+                if (data == undefined) {
+                    const error = {
+                        error: "Product not found"
+                    }
+                    res.json(error);
+                } else {
+
+
+                    res.json(data);
+
+                }
+
+
+            })
+
+
+
+        
+    }
+
     async getHoaDonKhachHang(req, res, next) {
         const maKhachHang = req.query.id;
         if (maKhachHang == undefined || maKhachHang == null) return res.send(404);

@@ -3,6 +3,7 @@ const router=express.Router();
 const ApiController=require("../app/controller/ApiController")
 router.get("/loaisanphams",ApiController.getLoaiSanPham) //  http://localhost:3000/api/loaisanphams?ma_loai=1
 router.get("/sanphams",ApiController.getSanPhams) //  http://localhost:3000/api/sanphams?ma_loai=1
+router.get("/img",ApiController.getImgSanPham) //  http://localhost:3000/api/img?masanpham=1
 router.get("/sanpham",ApiController.getSanPham); //  http://localhost:3000/api/sanpham
 router.get("/colors",ApiController.getColorbyMaSanPham)// can truyen ma sp vd http://localhost:3000/api/colors?masp=1
 router.get("/sizes",ApiController.getSizeByMaSanPham)// can truyen ma sp vd http://localhost:3000/api/sizes?masp=7
