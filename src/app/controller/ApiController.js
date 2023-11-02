@@ -34,42 +34,37 @@ class ApiConController {
     }
 
     async getSanPham(req, res) {
-        const sql = "select * from san_pham"
-        // console.log(req.query);
-        // const query = req.query;
-        // const where = " ";
-        // if (Object.keys(query).length>0) {
-        //     where+="where "
-        //     if (query.ma_loai != undefined, query.ma_loai != null) {
-        //         where += "ma_loai=" + query.ma_loai;
-        //     }
+        let query = req.query;
+      
+            const sql = "SELECT sp.*, MIN(asp.img) as img, sp.ten as ten_san_pham, lsp.ten as ten_loai_san_pham "+
+            "FROM san_pham sp "+
+            "JOIN anh_san_pham asp ON sp.id = asp.masanpham "+
+            "JOIN loai_san_pham lsp ON sp.maloai = lsp.id " + 
+             " GROUP BY sp.id ;";
+            console.log(sql);
+            con.query(sql, function (err, result, fields) {
+
+                const data = result;
+                // data.forEach(element => {
+                //     element.anh_dai_dien = bytetoBase64(element.anh_dai_dien)
+                // });
 
 
-        // }
+
+                if (data == undefined) {
+                    const error = {
+                        error: "Product not found"
+                    }
+                    res.json(error);
+                } else {
 
 
+                    res.json(data);
 
-
-        con.query(sql, function (err, result, fields) {
-
-            const data = result;
-
-
-            if (data == undefined) {
-                const error = {
-                    error: "Ko tim thay Loai san pham"
                 }
-                res.send(error);
-            } else {
 
 
-                res.json(data);
-
-            }
-
-
-        })
-
+            })
 
     }
 
@@ -214,12 +209,17 @@ class ApiConController {
         let where = "where ";
        
             if (query.ma_loai != undefined, query.ma_loai != null) {
-                where += "maloai=" + query.ma_loai;
+                where += "lsp.id =" + query.ma_loai;
             }   
 
 
 
-            const sql = "select * from san_pham as s inner join nha_san_xuat as n on s.manhasanxuat=n.id  " + where + "  limit 20;";
+            const sql = "SELECT sp.*, MIN(asp.img) as img, sp.ten as ten_san_pham, lsp.ten as ten_loai_san_pham "+
+            "FROM san_pham sp "+
+            "JOIN anh_san_pham asp ON sp.id = asp.masanpham "+
+            "JOIN loai_san_pham lsp ON sp.maloai = lsp.id "
+             + where + 
+             " GROUP BY sp.id ;";
             console.log(sql);
             con.query(sql, function (err, result, fields) {
 
