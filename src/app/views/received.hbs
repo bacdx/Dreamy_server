@@ -1,0 +1,90 @@
+<button type="button" style="width: 300dp; background-color: #e03636; " class=" mt-3 btn text-light w-10 "
+    data-toggle="modal" data-target="#exampleModalCenter">Thêm Đơn Hàng</button>
+<table class="table table-bordered mt-4 ">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Tên Khách Hàng </th>
+            <th scope="col">SĐT</th>
+            <th scope="col">Địa Chỉ</th>
+            <th scope="col">Voucher</th>
+            <th scope="col">Thanh Toán</th>
+            <th scope="col">Tổng Đơn Hàng</th>
+            <th scope="col">Trạng Thái</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {{#each data}}
+        <tr>
+            <th scope="row">{{this.id}}</th>
+            <td>{{this.hoten}}</td>
+            <td>{{this.numberphone}}</td>
+            <td>{{this.address}}</td>
+            <td>{{this.trangthai}}</td>
+            <td>{{this.tongtien}}</td>
+        </tr>
+        {{/each}}
+
+    </tbody>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Thêm Đơn Hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+        </div>
+        <div class="modal-body">
+            <form action="/received" enctype="multipart/form-data" method="post">
+                <div class="mb-3">
+                    <label for="exampleInputName" class="form-label">Tên Khách Hàng:</label>
+                    <input type="text" class="form-control" id="hoten" name="hoten">
+
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPrice" class="form-label">SĐT</label>
+                    <input type="number" class="form-control" id="sdt" name="sdt">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputColor" class="form-label">Địa Chỉ</label>
+                    <input type="text" class="form-control" id="diachi" name="address">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputType" class="form-label">Voucher</label>
+                    <input type="text" class="form-control" id=" voucher" name=" giamgia">
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleInputType" class="form-label">note</label>
+                    <input type="text" class="form-control" id="note" name="note">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputType" class="form-label">Sản phẩm</label>
+                    <br><br>
+                    <label for="img">Ảnh Sản Phẩm</label>
+                    <input type="file" value="file" class="form-control" id="img" name="filetoupload" multiple>
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleInputType" class="form-label">Tổng Giá trị đơn hàng</label>
+                    <input type="number" class="form-control" id="sum" name="tongdonhang">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Phê Duyệt</button>
+                    <button name="idUpPr" value="{{_id}}" type="submit" class="btn btn-primary">hủy Đơn</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
