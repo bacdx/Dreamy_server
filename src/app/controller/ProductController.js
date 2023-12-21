@@ -4,183 +4,203 @@ const { bytetoBase64, base64toBolb, getKey } = require('../../untl')
 var { formidable } = require('formidable');
 var fs = require('fs');
 class ProductController {
+    async view(req,res){
+        con.query("SELECT sp.*, MIN(asp.img) as img, lsp.ten  as ten_loai_san_pham ,nsx.name "+
+   " FROM san_pham sp " +
+   "JOIN anh_san_pham asp ON sp.id = asp.masanpham "+
+   "JOIN loai_san_pham lsp ON sp.maloai = lsp.id "+
+   "JOIN nha_san_xuat nsx ON sp.manhasanxuat = nsx.id "+
+   "GROUP BY sp.id;",function(err,data){
+       if(err) throw err ;
+       console.log(data);
+       res.render("product",{data:data});
+})
 
-    async index(req, res) {
-
-        if (req.method == "POST") {
-            const form = formidable({});
-            const [fields, files] = await form.parse(req);
-            console.log(fields);
-
-            const objFiles = files.filetoupload[0];
-            const base64Array = files.filetoupload.map(file => {
-                fs.readFile(file.filepath, async (err, data) => {
-
-                    const base64 = "data:" + objFiles.mimetype + ";base64," + data.toString('base64');
-                    return base64;
-
-                })
-
-                // truy van san pham
-                con.query("insert into san_pham (ten,manhasanxuat ,maloai ,ngaynhap ,soluong , ghichu , gia )value ('" + fields.tensanpham[0] + "',1," + fields.loaisanpham[0] + ",'2023-11-11 12:30:00',200,'" + fields.note[0] + "'," + fields.gia[0] + ");", function (err, result) {
-                    if (err) throw err;
-                    const id = result.insertId;
-                    console.log(result)
-                    
-                    for (let i = 0; i < fields.color.length; i++) {
-                        con.query("INSERT INTO chi_tiet_san_pham (masanpham,soluong) VALUES (?,?)", [id, fields.soluong[i]], function (err, result) {
-                            // truy van mau va size 
-                            con.query("INSERT INTO color (mamau,title,img,mact) VALUES (?,?,?,?)", [id, fields.soluong[i], null, result.insertId])
-                            con.query("INSERT INTO color (title,mact) VALUES (?,?,?,?)", [id, fields.soluong[i], result.insertId])
-
-                        })
-
-                    }
-
-
-                });
-
-
-
+    }
+    async find(req,res){
+        let sreach = req.body.search;
+        con.query("SELECT sp.*, MIN(asp.img) as img, lsp.ten  as ten_loai_san_pham ,nsx.name "+
+        " FROM san_pham sp " +
+        "JOIN anh_san_pham asp ON sp.id = asp.masanpham "+
+        "JOIN loai_san_pham lsp ON sp.maloai = lsp.id "+
+        "JOIN nha_san_xuat nsx ON sp.manhasanxuat = nsx.id "+
+        "Where sp.ten LIKE ?",['%'+sreach+"%"]+
+        "GROUP BY sp.id;",function(err,data){
+            if(err) throw err ;
+            console.log(data);
+            res.render("product",{data:data});
+     })
+    }
+   async form(req,res){
+    con.query("SELECT * FROM nha_san_xuat", function(err, result1) {
+        if(err) throw err;
+        con.query("SELECT * FROM loai_san_pham", function(err, result2) {
+          if(err) throw err;
+          res.render("addproduct", {nhaSanXuat: result1, loaiSanPham: result2});
+        });
+      });
+      
+  
+   }
+   async addPro(req,res){
+        const ten = req.body.ten;
+        const manhasanxuat = req.body.manhasanxuat;
+        const maloai = req.body.maloai;
+        const ngaynhap = req.body.ngaynhap;
+    
+        const ghichu = req.body.ghichu;
+        const gia =req.body.gia;
+        con.query("INSERT INTO san_pham SET ten = ? , manhasanxuat = ? , maloai = ? , ngaynhap = ? , ghichu = ? , gia = ?",[ten,manhasanxuat,maloai,ngaynhap,ghichu,gia],function(err,rows){
+            if(err) throw err;
+            console.log(rows.insert);
+            res.render("add-img",{sanpham: {id: rows.insertId, ten: ten, manhasanxuat: manhasanxuat, maloai: maloai, ngaynhap: ngaynhap, ghichu: ghichu, gia: gia}})
+        })
+   }
+   async addimg(req,res){
+    var masanpham = req.body.masanpham;
+    var imgs = req.body.img;
+    // Lặp qua mảng imgs và xử lý từng link ảnh
+    imgs.forEach(function(img) {
+      // Lưu link ảnh vào cơ sở dữ liệu
+      con.query("INSERT INTO anh_san_pham SET masanpham = ?, img = ?", [masanpham, img], function(err, result) {
+        if(err) throw err;
+        console.log(result);
+      });
+    });
+    res.redirect('/product');
+   }
+   async edit(req,res){
+    con.query("SELECT * FROM san_pham WHERE id = ?",[req.params.id],function(err,relsut){
+        if(err) throw err ;
+        con.query("SELECT * FROM nha_san_xuat", function(err, result1) {
+            if(err) throw err;
+            con.query("SELECT * FROM loai_san_pham", function(err, result2) {
+              if(err) throw err;
+              res.render("edit-pro", {nhaSanXuat: result1, loaiSanPham: result2 , relsut});
             });
+          });
+    })
+   
+   }
+   async editfirm(req,res){
+   
+    const ten = req.body.ten;
+    const ngaynhap = req.body.ngaynhap;
+    const ghichu = req.body.ghichu;
+    const gia =req.body.gia;
+    con.query("UPDATE san_pham SET ten = ? , ngaynhap = ? , ghichu = ? , gia = ? WHERE id = ?",[ten,ngaynhap,ghichu,gia,req.params.id],function(err,relsut){
+        if(err) throw err;
+        res.redirect("/product");
+    })
+   }
 
+   async delete(req, res) {
+    // Kiểm tra xem có chi tiết nhập nào cho sản phẩm này không
+    con.query("SELECT * FROM chi_tiet_nhap WHERE masanpham = ?", [req.params.id], function(err, result) {
+      if(err) throw err;
+      // Nếu không có chi tiết nhập nào, tiến hành xóa sản phẩm và các dữ liệu liên quan
+      if(result.length === 0) {
+        // Xóa dữ liệu từ bảng size, anh_san_pham, color
+        con.query("DELETE FROM size WHERE masp = ?", [req.params.id], function(err, result) {
+          if(err) throw err;
+        });
+        con.query("DELETE FROM anh_san_pham WHERE masanpham = ?", [req.params.id], function(err, result) {
+          if(err) throw err;
+        });
+        con.query("DELETE FROM color WHERE masp = ?", [req.params.id], function(err, result) {
+          if(err) throw err;
+        });
+        // Cuối cùng, xóa sản phẩm
+        con.query("DELETE FROM san_pham WHERE id = ?", [req.params.id], function(err, result) {
+          if(err) throw err;
+          res.redirect("/product");
+        });
+      } else {
+        // Nếu có chi tiết nhập, thông báo cho người dùng
+        res.send("Không thể xóa sản phẩm này vì có chi tiết nhập liên quan.");
+      }
+    });
+  }
+  
+    
 
+  //// -------------------------------------------- color ------------------------------------------------------///
 
+  // view list color
+   async color(req,res){
 
+    con.query("SELECT * FROM color WHERE masp = ?",[req.params.id],function(err,data){
+      if(err) throw err ;
+      console.log(data);
+      res.render("color",{data:data ,masp :{id : req.params.id}});
+    })
+   }
 
+   // view add color 
+   async addColor(req,res){
+    const id = req.params.id;
+    console.log(id);
+     res.render('add-color',{masp :{id : req.params.id}})
+   }
 
-        }
+   // form add color
+   async formColor(req,res){
+    const title = req.body.title ;
+    const mamau = req.body.mamau ;
+    const masp = req.body.masp;
+    con.query("INSERT INTO color SET masp = ? , title = ? , mamau = ?",[masp,title,mamau],function(err,rows){
+      if(err) throw err ;
+    
+       
+        res.render('add-color', {masp: {id: masp}});
+      
+    })
+   }
 
-        const sql = "select san_pham.ten,san_pham.gia,nha_san_xuat.name,san_pham.ghichu from san_pham inner join nha_san_xuat on san_pham.manhasanxuat=nha_san_xuat.id  limit 20;";
-        const sqlLoaiSp = "select* from loai_san_pham ";
+   // view sua color 
+   async editColor(req,res){
+      con.query("SELECT * FROM color WHERE id = ? ",[req.params.id],
+      function(err,rows){
+        if(err) throw err ;
+        res.render('edit-color', {rows});
+      })
 
-        con.query(sqlLoaiSp, function (err, result) {
+   }
 
-            const loaiSps = result;
+   // form sua color 
+   async editcolorFirm(req,res){
+    const title = req.body.title ;
+    const mamau = req.body.mamau ;
+    const masp = req.body.masp;
+    con.query("UPDATE color SET masp = ? , title = ? , mamau = ? WHERE id = ? ",[masp,title,mamau , req.params.id],function(err,rows){
+      if(err) throw err ;
+    
+      res.render('add-color', {alert:`${title} đã được cập nhật thành công !`});
+      
+    })
+   }
 
-
-
-            con.query(sql, function (err, result, fields) {
-             
-                const data = result;
-              
-
-                data.forEach(element => {
-                    element.anh_dai_dien = bytetoBase64(element.anh_dai_dien)
-                });
-                con.query("select * from anh_san_pham ;", (err, result) => {
-
-                    const img = bytetoBase64(result[0].img);
-                    data.forEach((data) => {
-                        data.img = img;
-                    })
-                })
-
-
-
-
-                if (data == undefined) {
-                    const error = {
-                        error: "Product not found"
-                    }
-                    res.send(error);
-                } else {
-
-                    // console.log(data);
-                    res.render("product", { data: data, loaiSps: loaiSps });
-                }
-
-
+   // xoa color
+   async deleteColor(req,res){
+ 
+    con.query("DELETE FROM color WHERE id = ?",[req.params.id],function(err,relsut){
+                if(err) throw err;
+                res.send("Da xoa color thanh cong")
             })
-        })
-
+       
     }
-
-
-    async getProduct(req, res) {
-
-
-        con.query("select  * from sanpham where limit 20;", function (err, result, fields) {
-
-            const data = result;
-            data.forEach(element => {
-                element.anh_dai_dien = blobtoBase64(element.anh_dai_dien)
-            });
-
-            // console.log(data);
-            if (data != undefined) {
-                const error = {
-                    error: "Product not found"
-                }
-                res.send(error);
-            } else {
-                res.send(data);
-            }
-
-
-        })
-
-
-    }
-
-
-
-    async insertProduct(req, res) {
-        const { id, ten, manhasanxuat, ma_loai, ngaynhap, soluong, ghichu, gia, trangthai } = req.body;
-        console.log(ten, manhasanxuat, ma_loai, ngaynhap, soluong, ghichu, gia, trangthai);
-
-
-        var sql = "INSERT INTO sanpham (ten,manhasanxuat,ma_loai,ngaynhap,soluong,ghichu,gia,trangthai) VALUES ('" + ten + "'," + manhasanxuat + "," + ma_loai + ",'" + ngaynhap + "'," + soluong + ",'" + ghichu + "'," + gia + ",'" + trangthai + ")";
-        con.query(sql, function (err, result, fields) {
-
-
-            console.log(data);
-            if (result != undefined) {
-                res.send(data);
-            }
-            else {
-                const err = {
-                    error: "Dont Have Product"
-
-                }
-                res.send(err);
-            }
-
-        })
-
-    }
-
-    async updateProduct(req, res) {
-
-        const { id, ten, manhasanxuat, ma_loai, ngaynhap, soluong, ghichu, gia, trangthai } = req.body;
-        console.log(ten, manhasanxuat, ma_loai, ngaynhap, soluong, ghichu, gia, trangthai);
-
-
-        var sql = " UPDATE  sanpham  SET ten='" + ten + "', manhasanxuat=" + manhasanxuat + ",ma_loai=" + ma_loai + ",ngaynhap='" + ngaynhap + "',soluong=" + soluong + ",ghichu='" + ghichu + "',gia=" + gia + ",trangthai='" + trangthai + "')";
-        con.query(sql, function (err, result, fields) {
-
-
-            console.log(data);
-            if (result != undefined) {
-                res.send(data);
-            }
-            else {
-                const err = {
-                    error: "Dont Have Product"
-
-                }
-                res.send(err);
-            }
-
-        })
-
-    }
-
-
-
-
-
 
 }
+   
+   
+   /// ---------------------- end color ----------------------------------------------------------------------------//
+   
+   
+  
+
+
+
+
+
 
 module.exports = new ProductController();

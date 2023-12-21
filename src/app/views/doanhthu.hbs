@@ -1,0 +1,46 @@
+<form class="m-3" method="post" action="/doanhthu">
+
+    <div class="mb-3">
+        <label  class="form-label">Ngày bắt đầu</label>
+        <input type="datetime" class="form-control" name="dayStart" placeholder="vd : 2023-10-23 00:00:00">
+    </div>
+
+    <div class="mb-3">
+        <label  class="form-label">Ngày kết thúc</label>
+        <input type="datetime" class="form-control" name="dayEnd" placeholder="vd : 2023-10-23 00:00:00" >
+    </div>
+
+  <button type="submit" class="btn btn-primary mt-1">Submit</button>
+</form>
+{{#if tongtien}}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+   Tổng tiền :  {{tongtien}}VNĐ
+   
+</div>
+{{/if}}
+<table class="table table-bordered mt-4 ">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Top</th>
+      <th scope="col">Tên</th>
+      <th scope="col">Ảnh</th>
+      <th scope="col">Giá bán</th>
+      
+   
+    </tr>
+  </thead>
+  <tbody>
+
+   {{#each data}}
+<tr>
+  <th scope="row">{{inc @index}}</th>
+  <td>{{this.ten}}</td>
+  <td><img src="{{this.img}}" style="width: 100px; height: 120px;" alt=""></td>
+  <td>{{this.gia}}</td>
+</tr>
+{{/each}}
+
+   
+
+  </tbody>
+</table>

@@ -15,21 +15,31 @@ con.connect(function(err) {
   
   console.log(err);
 });
-//set view engine
-app.engine('hbs', engine({
+const exphbs  = require('express-handlebars');
 
-    extname:'.hbs'
-}));
-app.set('view engine', 'hbs');
+const hbs = exphbs.create({
+  // Specify helpers which are only registered on this instance.
+  helpers: {
+      inc: function (value, options) {
+          return parseInt(value) + 1;
+      }
+  },
+  extname: '.hbs'
+});
+
+//set view engine
+app.engine('.hbs', hbs.engine);
+app.set('view engine', '.hbs');
 //set path views
 app.set('views',path.join(__dirname,"\\src\\app\\views"))
-
+app.use(express.static(__dirname + '../public'))
 app.use(express.static(path.join(__dirname,"\\src\\app\\resources")))
 console.log(path.join(__dirname,"\\src\\app\\resources\\img\\logo.png"))
 console.log()
 app.use(express.urlencoded({
 extended: true
 }));
+
 
 
 
