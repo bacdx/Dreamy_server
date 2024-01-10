@@ -1,0 +1,23 @@
+{{#each result}}
+    <h3 class="text-center mt-2">Sản phẩm : {{this.ten}}</h3>
+    {{/each}}
+    {{#each result1}}
+    <img src="{{this.img}}" alt="" srcset="" style="width: 200px%; height: 200px;" class="img-fluid img-thumbnail ms-2 rounded text-center mt-2">
+  
+{{/each}}
+{{#each result}}
+    <h3 class="ms-2 mt-1">Loại : {{this.ten_loai_san_pham}}</h3>
+
+    <h3 class="ms-2 mt-1">Nhà sản xuất : {{this.name}}</h3>
+    <h3 class="ms-2 mt-1">Giá : {{this.gia}} VNĐ</h3>
+    <h3 class="ms-2 mt-1">Size : {{this.sizes}}</h3>
+    <h3 class="ms-2 mt-1">Màu : {{this.colors}}</h3>
+    <h3 class="ms-2 mt-1">Số lượng : {{this.total_soluong}}</h3>
+{{/each}}
+{{#if result2}}
+<h3 class="ms-2 mt-1">Đã bán : {{result2}}</h3>
+{{else}}
+
+<h3 class="ms-2 mt-1">Đã bán : 0</h3>
+{{/if}}
+

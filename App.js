@@ -9,6 +9,9 @@ const { access } = require('fs');
 const path = require('path');
 const routes = require('./src/routes/route');
 
+var session = require('express-session');
+
+// Use the session middleware
 
 
 con.connect(function(err) {
@@ -22,10 +25,18 @@ const hbs = exphbs.create({
   helpers: {
       inc: function (value, options) {
           return parseInt(value) + 1;
-      }
+      } ,
+      stringify: function (context) {
+        return JSON.stringify(context);
+      },
+      json: function (context) {
+        return JSON.stringify(context);
+      },
   },
   extname: '.hbs'
 });
+
+
 
 //set view engine
 app.engine('.hbs', hbs.engine);
@@ -34,6 +45,11 @@ app.set('view engine', '.hbs');
 app.set('views',path.join(__dirname,"\\src\\app\\views"))
 app.use(express.static(__dirname + '../public'))
 app.use(express.static(path.join(__dirname,"\\src\\app\\resources")))
+app.use(session({
+  secret: '12121313',
+  resave: false,
+  saveUninitialized: true
+}));
 console.log(path.join(__dirname,"\\src\\app\\resources\\img\\logo.png"))
 console.log()
 app.use(express.urlencoded({

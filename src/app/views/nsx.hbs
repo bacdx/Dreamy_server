@@ -1,11 +1,8 @@
-<div class="col-6 justyfy-content-end">
+<div class="col-6 justyfy-content-end mb-2 mt-2">
   <a href="/nsx/add" type="button" class="btn btn-primary align-self-center">+ add nsx</a>
 </div>
-  <form class="d-flex" method="POST" action="#">
-    <input type="sreach" class="from-control me-2"  placeholder="Search" aria-label="Search" name="search">
-    <button class="btn" type="submit">Search</button>
-  </form>
-<table class="table table-bordered mt-4 ">
+  
+<table class="table table-bordered mt-4 text-center" id="example">
   <thead class="thead-dark">
     <tr>
       <th scope="col">id</th>
@@ -30,7 +27,7 @@
      <td class="text-end">
        
         <a href="/nsx/edit/{{this.id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-pencil"></i> Edit</a>
-        <a href="/nsx/delete/{{this.id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-pencil"></i>Delete</a>
+        <a href="/nsx/delete/{{this.id}}" type="button" class="btn btn-light btn-small" onclick="return confirm('Bạn có chắc muốn ẩn nhà sản xuất này không ?')"><i class="fas fa-trash"></i>Delete</a>
       
       
       </td>

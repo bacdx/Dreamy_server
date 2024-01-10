@@ -1,9 +1,10 @@
 const con = require('../../connect/connectmysql');
+var { validationResult } = require('express-validator');
 class NhaSanXuatController{
 
         // view nsx
         async view(req,res){
-            con.query("SELECT * FROM nha_san_xuat",function(err,data){
+            con.query("SELECT * FROM nha_san_xuat WHERE status = 1 ",function(err,data){
                 if(err) throw err ;
                 console.log(data);
                 res.render("nsx",{data:data});
@@ -19,11 +20,16 @@ class NhaSanXuatController{
 
         // form add nsx
         async newCategory(req,res){
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+              res.status(422).json({ errors: errors.array() });
+              return;
+            }
             const name = req.body.name;
             const note = req.body.note;
             const numberphone = req.body.numberphone;
            const address = req.body.address;
-            con.query("INSERT INTO nha_san_xuat SET name = ? , numberphone = ? , address = ? , note = ? ",[name,numberphone,address,note],function(err,relsut){
+            con.query("INSERT INTO nha_san_xuat SET name = ? , numberphone = ? , address = ? , note = ? , status = 1 ",[name,numberphone,address,note],function(err,relsut){
                 if(err) throw err;
                 console.log(relsut.insert);
                 res.render("add-nsx",{alert:"Thêm nhà sản xuất thành công !"})
@@ -38,6 +44,11 @@ class NhaSanXuatController{
        
     }
     async editConfirm(req,res){
+        const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+              res.status(422).json({ errors: errors.array() });
+              return;
+            }
         const name = req.body.name;
         const note = req.body.note;
         const numberphone = req.body.numberphone;
@@ -52,16 +63,12 @@ class NhaSanXuatController{
 
 
     async delete(req,res){
-        con.query("SELECT * FROM san_pham WHERE manhasanxuat = ?",[req.params.id],function(err,rows){
+        const ten = "Không xác định "
+        con.query("UPDATE nha_san_xuat SET name = ? , status = 2 WHERE id = ? ",[ten,req.params.id],function(err,rows){
             if(err) throw err;
-            if(rows.length==0){
-                con.query("DELETE FROM nha_san_xuat WHERE id = ?",[req.params.id],function(err,relsut){
-                    if(err) throw err;
+           
                     res.redirect("/nsx");
-                })
-            }else{
-                res.send("Không thể xóa nhà sản xuất này vì có sản phẩm liên quan."); 
-            }
+               
         })
 
     }
