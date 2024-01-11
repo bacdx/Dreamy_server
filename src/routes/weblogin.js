@@ -5,9 +5,7 @@ const loginController=require("../app/controller/LoginController")
 
 
 
-router.get('/web', function(req, res){
-    res.send("hello");
-});
+router.get('/web', loginController.index);
 router.post('/web',loginController.loginweb);
 
 router.post('/app',loginController.loginapp);

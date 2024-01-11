@@ -8,13 +8,17 @@ const app = express();
 const { access } = require('fs');
 const path = require('path');
 const routes = require('./src/routes/route');
-
+const bodyParser = require('body-parser')
 
 
 con.connect(function(err) {
   
   console.log(err);
 });
+
+app.use(bodyParser.json({limit:"50mb"}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 //set view engine
 app.engine('hbs', engine({
 

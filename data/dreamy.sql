@@ -15,13 +15,23 @@ ten nvarchar(50),
  ghichu text,
  gia bigint);
  
+ create table chi_tiet_san_pham(
+ id bigint auto_increment not null primary key,
+ masanpham bigint ,
+ masize bigint,
+ mamau bigint,
+ soluong bigint,
+ img text
+ );
+ 
+ 
  
 create table color(
 id bigint not null auto_increment primary key,
 masp bigint ,
 title text,
 mamau text,
-img blob);
+img text);
 
 create table size(
 id bigint not null auto_increment primary key,
@@ -32,7 +42,7 @@ title text);
 create table media_comment(
 id bigint not null auto_increment primary key,
 macomment bigint,
-content blob);
+content text);
 
 create table binh_luan(
 id bigint not null auto_increment primary key,
@@ -44,6 +54,7 @@ masanpham bigint );
 create table loai_san_pham(
 id bigint not null auto_increment primary key,
 ten text,
+img text,
 note text);
 
 
@@ -51,7 +62,7 @@ note text);
  create table anh_san_pham(
 id bigint not null auto_increment primary key,
 masanpham bigint,
-img blob);
+img text);
 
  
  create table hoa_don_khach_hang(
@@ -63,11 +74,14 @@ img blob);
  makhachhang bigint);
  
  create table chi_tiet_hoa_don(
- id bigint,
+ id bigint primary key not null auto_increment,
  mahoadon bigint,
  masanpham bigint,
+ masize bigint,
+ mamau bigint,
  soluong int,
  dongia bigint);
+ select * from chi_tiet_san_pham;
  
  create table chi_tiet_nhap(
  id bigint not null auto_increment primary key,
@@ -109,13 +123,13 @@ matkhau bigint);
 
 create table khachhang(
 id bigint not null auto_increment primary key,
-cccd text,
 address text,
 numberphone text,
-magioitinh text,
 username text ,
 matkhau text,
 hoten text);
+
+select * from khachhang;
 
 create table notificaton (
 id bigint not null auto_increment primary key,
@@ -124,6 +138,7 @@ ketthuc datetime,
 mathongbao bigint
 
 );
+
 create table loai_thong_bao(
 id bigint not null auto_increment primary key,
 notificatonname  text not null) ;
@@ -133,24 +148,31 @@ id bigint not null auto_increment primary key,
 name nvarchar(50) ,
 numberphone nvarchar(12),
 address nvarchar(50),
-note nvarchar(200));
+note nvarchar(200)
+);
 
 
 ALTER TABLE color ADD CONSTRAINT fk_masanpham_color FOREIGN KEY (masp) REFERENCES san_pham(id);
 ALTER TABLE size ADD CONSTRAINT fk_masanpham_size FOREIGN KEY (masp) REFERENCES san_pham(id);
+ALTER TABLE chi_tiet_san_pham ADD CONSTRAINT fk_ctsp_size FOREIGN KEY (masize) REFERENCES size(id);
+ALTER TABLE chi_tiet_san_pham ADD CONSTRAINT fk_ctsp_color FOREIGN KEY (mamau) REFERENCES color(id);
 ALTER TABLE binh_luan ADD CONSTRAINT fk_masanpham_id FOREIGN KEY (masanpham) REFERENCES san_pham(id);
 ALTER TABLE media_comment ADD CONSTRAINT fk_mbinhluan FOREIGN KEY (macomment) REFERENCES binh_luan(id);
 ALTER TABLE san_pham ADD CONSTRAINT fk_masanpham_loai FOREIGN KEY (maloai) REFERENCES loai_san_pham(id);
 ALTER TABLE khuyen_mai ADD CONSTRAINT fk_masanpham_khuyenmai FOREIGN KEY (masanpham) REFERENCES san_pham(id);
 ALTER TABLE chi_tiet_nhap ADD CONSTRAINT fk_masanpham_nhap FOREIGN KEY (masanpham) REFERENCES san_pham(id);
 ALTER TABLE chi_tiet_hoa_don ADD CONSTRAINT fk_masanpham_hoadonkhachhang FOREIGN KEY (masanpham) REFERENCES san_pham(id);
+ALTER TABLE chi_tiet_hoa_don ADD CONSTRAINT fk_masize_size FOREIGN KEY (masize) REFERENCES size(id);
+ALTER TABLE chi_tiet_hoa_don ADD CONSTRAINT fk_mamau_color FOREIGN KEY (mamau) REFERENCES color(id);
 ALTER TABLE chi_tiet_hoa_don ADD CONSTRAINT fk_mahoadon_hoadonkhachhang FOREIGN KEY (mahoadon) REFERENCES hoa_don_khach_hang(id);
 ALTER TABLE hoa_don_khach_hang ADD CONSTRAINT fk_makhachhang_hoadonkhachhang FOREIGN KEY (makhachhang) REFERENCES khachhang(id);
 ALTER TABLE chi_tiet_nhap ADD CONSTRAINT fk_mahoadon_nhap FOREIGN KEY (mahoadon) REFERENCES hoa_don_nhap(id);
 ALTER TABLE hoa_don_nhap ADD CONSTRAINT fk_manhanvien_nhap FOREIGN KEY (manhanvien) REFERENCES nhanvien(id);
 ALTER TABLE san_pham ADD CONSTRAINT fk_manhasanxuat_sanpham FOREIGN KEY (manhasanxuat) REFERENCES nha_san_xuat(id);
 ALTER TABLE anh_san_pham ADD CONSTRAINT fk_masanpham_anhsanpham FOREIGN KEY (masanpham) REFERENCES san_pham(id);
-select * from san_pham
+select * from san_pham;
+select * from size;
+select c.id,sp.ten,cl.title,s.title,cl.img,c.soluong,c.dongia from chi_tiet_hoa_don as c inner join color as cl on c.mamau=cl.id inner join size as s on masize =s.id inner join san_pham as sp on sp.id=c.masanpham where makhachhang   ; 
 -- insert into nhanvien ( numberphone,username,hoten,matkhau)
 -- value('0000000000','bac','Tran Xuan Bac','1234'); 
 
@@ -174,9 +196,7 @@ select * from san_pham
 -- GRANT ALL ON *.* to 'localhost'@'root';
 -- -- ALTER USER 'root'@'BAC' IDENTIFIED BY 'YES';
 
-
 -- select s.id,s.ten,s.gia ,n.name  from san_pham  as s inner join nha_san_xuat as n on s.manhasanxuat=n.id = 1  limit 20;
-
 -- select  count(*) as tong  from san_pham  ;
 -- select * from media_comment where macomment =" 3 ";
 -- select * from chi_tiet_hoa_don as c  inner join hoa_don_khach_hang as h on c.mahoadon=h.id    where  c.mahoadon =1 ;

@@ -4,7 +4,8 @@ var mysql = require('mysql');
     host: "localhost:4788",
     user: "root",
     password: "YES",
-    database: "dreamy"
+    database: "dreamy",
+
   });
  
   module.exports = con;
