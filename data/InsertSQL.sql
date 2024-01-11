@@ -1,3 +1,4 @@
+Kỳ Đỗ
 use dreamy;
 
 
@@ -21,10 +22,10 @@ select* from nha_san_xuat;
  
  select* from san_pham ;
  INSERT INTO size (masp, title)
- VALUES (8, 'L'),
- (7, 'XL')
- ,(8, 'XXL')
- ,(8, 'XL');
+ VALUES (1, 'L'),
+ (1, 'XL')
+ ,(2, 'XXL')
+ ,(2, 'XL');
  
  INSERT INTO quyen (tenquyen, manhanvien)
  VALUES ('Quyền 1', 1);
@@ -40,8 +41,8 @@ select* from nha_san_xuat;
 
  
  INSERT INTO binh_luan (makhachhang, content, thoigian, masanpham)
-VALUES (1, 'Nội dung 1', '2023-10-05 08:00:00', 7)
-,(2, 'Nội dung 2','2023-10-05 08:00:00', 8);
+VALUES (1, 'Nội dung 1', '2023-10-05 08:00:00', 1)
+,(2, 'Nội dung 2','2023-10-05 08:00:00', 2);
 select* from binh_luan;
 
  INSERT INTO media_comment (macomment, content)
@@ -54,8 +55,8 @@ select* from binh_luan;
 
 
 INSERT INTO khuyen_mai (khuyenmaiphantram, khuyennmaitien, masanpham, tenkhuyenmai) 
-VALUES (30,0, 7, 'Khuyến mãi A')
-,(10,100000, 8, 'Khuyến mãi B');
+VALUES (30,0, 1, 'Khuyến mãi A')
+,(10,100000, 2, 'Khuyến mãi B');
 
 INSERT INTO khachhang (cccd, address, numberphone, magioitinh, username, matkhau, hoten) 
 VALUES ('1234567890', '123 Đường ABC', '0987654321', 'Nam', 'nguyenvana', '0123456', 'Nguyễn Văn A')
@@ -71,14 +72,14 @@ VALUES ('2023-10-05 08:00:00', 1, 1, 1001, 1)
 ,('2023-10-05 09:00:00', 1, 1, 1002, 1);
 
 INSERT INTO chi_tiet_hoa_don (mahoadon, masanpham, soluong, dongia)
-VALUES (1, 7, 5, 10000)
-,(2, 2, 8, 20000);
+VALUES (1, 1, 5, 10000)
+,(2, 2, 2, 20000);
 
 INSERT INTO color (masp, title, mamau, img)
-VALUES (7, 'Đỏ', '#ff0009', '48656C6C6F20576F726C64')
-,(7, 'Xanh', '#9cff0c', '48656C6C6F2057123D12V4'),
-(8, 'Đỏ', '#ff0009', '48656C6C6F20576F726C64')
-,(8, 'Xanh', '#9cff0c', '48656C6C6F2057123D12V4');
+VALUES (1, 'Đỏ', '#ff0009', '48656C6C6F20576F726C64')
+,(1, 'Xanh', '#9cff0c', '48656C6C6F2057123D12V4'),
+(2, 'Đỏ', '#ff0009', '48656C6C6F20576F726C64')
+,(2, 'Xanh', '#9cff0c', '48656C6C6F2057123D12V4');
 
 
 INSERT INTO hoa_don_nhap( manhanvien, manhasanxuat, ngay,tongtien)
@@ -89,13 +90,14 @@ VALUES (1, 2,"2020-12-12 12:00:00",0),
 
 
 
-INSERT INTO chi_tiet_nhap ( dongia, ghichu, mahoadon)
-VALUES (300000, 'Áo Khoắc lông cừu', 1)
-,( 2000000, 'Áo Dài Bali', 2);
+INSERT INTO chi_tiet_nhap ( masanpham,dongia, ghichu, mahoadon)
+VALUES (1,300000, 'Áo Khoắc lông cừu', 1)
+,( 2,2000000, 'Áo Dài Bali', 2);
 
 
 
 
 INSERT INTO media_comment (macomment, content)
-VALUES (1,'')
+VALUES (3,'dsffdssdffsd'),
+ (3,'dsffdssdffsd')
 ;

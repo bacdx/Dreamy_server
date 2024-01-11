@@ -3,21 +3,30 @@ const express=require('express');
 const product=require('./product');
 const api=require('./api');
 const notification=require('./notification');
+
 const category = require('./category');
 const nsx = require("./nhasx");
 const doanhthu = require("./doanhthu");
 const oder = require("./oder")
+
+//const received=require('./received');
+
 function route(app){
  
-
 
 app.use('/login',weblogin);
 
 app.use('/product',product);
 
 app.use('/api',api);
+
 app.use('/category',category);
 app.use("/nsx",nsx)
+
+
+//app.use('/api',received);
+
+
 app.use('/notification',notification);
 app.use("/doanhthu",doanhthu);
 app.use("/oder",oder);

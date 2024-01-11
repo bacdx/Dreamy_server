@@ -15,7 +15,7 @@ ten nvarchar(50),
  ghichu text,
  gia bigint);
  
- select san_pham.ten,san_pham.gia,nha_san_xuat.name,san_pham.ghichu from san_pham inner join nha_san_xuat on san_pham.manhasanxuat=nha_san_xuat.id  limit 20;
+ 
 create table color(
 id bigint not null auto_increment primary key,
 masp bigint ,
@@ -71,6 +71,7 @@ img blob);
  
  create table chi_tiet_nhap(
  id bigint not null auto_increment primary key,
+ masanpham bigint,
 soluong int,
 dongia bigint,
 ghichu text,
@@ -174,4 +175,8 @@ GRANT ALL ON *.* to 'localhost'@'root';
 -- ALTER USER 'root'@'BAC' IDENTIFIED BY 'YES';
 
 
-select * from size where masp=8;
+select s.id,s.ten,s.gia ,n.name  from san_pham  as s inner join nha_san_xuat as n on s.manhasanxuat=n.id = 1  limit 20;
+
+select  count(*) as tong  from san_pham  ;
+select * from media_comment where macomment =" 3 ";
+select * from chi_tiet_hoa_don as c  inner join hoa_don_khach_hang as h on c.mahoadon=h.id    where  c.mahoadon =1 ;
