@@ -1,0 +1,29 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"> <a href="/product">Product</a></li>
+        <li class="breadcrumb-item active" aria-current="page"> Thêm color cho sản phẩm</li>
+    </ol>
+</nav>
+
+<form class="m-3 " method="POST" action="/product/addColors">
+     <input type="hidden" name="masp" value="{{sanpham.id}}">
+  <div class="mb-3">
+    <label  class="form-label">Color 1</label>
+    <input type="text" class="form-control" name="title">
+    <input type="text" class="form-control" name="img">
+    <label  class="form-label">Color 2</label>
+    <input type="text" class="form-control" name="title">
+    <input type="text" class="form-control" name="img">
+    <label  class="form-label">Color 3 </label>
+    <input type="text" class="form-control" name="title">
+    <input type="text" class="form-control" name="img">
+    <label  class="form-label">Color 4</label>
+    <input type="text" class="form-control" name="title">
+    <input type="text" class="form-control" name="img">
+  </div>
+
+
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>

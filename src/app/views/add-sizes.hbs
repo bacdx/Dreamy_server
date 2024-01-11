@@ -1,0 +1,26 @@
+
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"> <a href="/product">Product</a></li>
+        <li class="breadcrumb-item active" aria-current="page"> Thêm size sản phẩm</li>
+    </ol>
+</nav>
+
+<form class="m-3 " method="POST" action="/product/addSizes">
+     <input type="hidden" name="masanpham" value="{{sanpham.id}}">
+  <div class="mb-3">
+    <label  class="form-label">Size</label>
+    <input type="text" class="form-control" name="title">
+    <input type="text" class="form-control" name="title">
+    <input type="text" class="form-control" name="title">
+    <input type="text" class="form-control" name="title">
+    <input type="text" class="form-control" name="title">
+  </div>
+
+
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>

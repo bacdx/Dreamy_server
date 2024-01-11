@@ -1,0 +1,50 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"> <a href="/product">Product</a></li>
+        <li class="breadcrumb-item active" aria-current="page"> Edit Product</li>
+    </ol>
+</nav>
+
+{{#each relsut}}
+<form class="m-3 " method="POST" action="/product/editproduct/{{this.id}}">
+    <div class="mb-3">
+    <label  class="form-label">Tên Sản phẩm</label>
+    <input value="{{this.ten}}" type="text" class="form-control" name="ten">
+  </div>
+
+    <div class="mb-3">
+    <label  class="form-label">Ngày nhập</label>
+    <input type="date" class="form-control" name="ngaynhap" value="{{this.ngaynhap}}">
+  </div>
+
+  <div class="mb-3">
+    <label  class="form-label">Mô tả</label>
+    <input type="text" class="form-control" name="ghichu" value="{{this.ghichu}}">
+  </div>
+
+  <div class="mb-3">
+    <label  class="form-label">Giá</label>
+    <input type="number" class="form-control" name="gia" value="{{this.gia}}">
+  </div>
+
+ 
+{{/each}}
+<div class="mb-3">
+     <label  class="form-label">Nhà Sản Xuất</label>
+   <select name="manhasanxuat">
+        {{#each nhaSanXuat}}
+        <option value="{{this.id}}">{{this.name}}</option>
+        {{/each}}
+   </select>
+  </div>
+
+   <div class="mb-3">
+     <label  class="form-label">Loại Sản Phẩm</label>
+   <select name="maloai">
+        {{#each loaiSanPham}}
+        <option value="{{this.id}}">{{this.ten}}</option>
+        {{/each}}
+   </select>
+  </div>
+ <button type="submit" class="btn btn-primary">Submit</button>
+</form>

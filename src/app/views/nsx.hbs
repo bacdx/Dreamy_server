@@ -1,0 +1,39 @@
+<div class="col-6 justyfy-content-end mb-2 mt-2">
+  <a href="/nsx/add" type="button" class="btn btn-primary align-self-center">+ add nsx</a>
+</div>
+  
+<table class="table table-bordered mt-4 text-center" id="example">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Tên</th>
+      <th scope="col">Number Phone</th>
+        <th scope="col">Address</th>
+       <th scope="col">Note</th>
+      
+      <th scope="col" class="text-end">trạng thái</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {{#each data}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.numberphone}}</td>
+        <td>{{this.address}}</td>
+      <td>{{this.note}}</td>
+   
+     <td class="text-end">
+       
+        <a href="/nsx/edit/{{this.id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-pencil"></i> Edit</a>
+        <a href="/nsx/delete/{{this.id}}" type="button" class="btn btn-light btn-small" onclick="return confirm('Bạn có chắc muốn ẩn nhà sản xuất này không ?')"><i class="fas fa-trash"></i>Delete</a>
+      
+      
+      </td>
+      {{/each}}
+    </tr>
+   
+
+  </tbody>
+</table>
