@@ -7,6 +7,7 @@ const category = require('./category');
 const nsx = require("./nhasx");
 const doanhthu = require("./doanhthu");
 const oder = require("./oder")
+const customer = require("./customer")
 function route(app){
  
 
@@ -21,6 +22,7 @@ app.use("/nsx",nsx)
 app.use('/notification',notification);
 app.use("/doanhthu",doanhthu);
 app.use("/oder",oder);
+app.use("/customer",customer);
 app.get('/', function(req, res){
     res.render('home')
 

@@ -1,0 +1,36 @@
+<table class="table table-bordered mt-4 ms-2 text-center" >
+  <thead class="thead-dark">
+    <tr >
+      <th scope="col" >STT</th>
+      <th scope="col">CCCD</th>
+      <th scope="col">Địa chỉ</th>
+      <th scope="col">Email</th>
+      <th scope="col">Avatar</th>
+      <th scope="col">SDT</th>
+      <th scope="col">Username</th>
+       <th scope="col">Họ tên</th>
+      <th scope="col" class="text-end">trạng thái</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {{#each data}}
+    <tr>
+      <th scope="row">{{inc @index}}</th>
+      <td>{{this.cccd}}</td>
+        <td>{{this.address}}</td>
+      <td>{{this.email}}</td>
+          <td>{{this.avatar}}</td>
+      <td>{{this.numberphone}}</td>
+      <td>{{this.username}}</td>
+      <td>{{this.hoten}}</td>
+    
+      <td class="text-end">
+        <a href="/customer/{{this.id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-eye"></i>View</a>
+       
+      {{/each}}
+    </tr>
+   
+
+  </tbody>
+</table>

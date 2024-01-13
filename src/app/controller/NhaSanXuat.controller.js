@@ -73,6 +73,20 @@ class NhaSanXuatController{
 
     }
 
+    async list(req,res){
+        con.query("SELECT sp.*, MIN(asp.img) as img, lsp.ten  as ten_loai_san_pham ,nsx.name "+
+        " FROM san_pham sp " +
+        "JOIN anh_san_pham asp ON sp.id = asp.masanpham "+
+        "JOIN loai_san_pham lsp ON sp.maloai = lsp.id "+
+        "JOIN nha_san_xuat nsx ON sp.manhasanxuat = nsx.id "+
+        "WHERE sp.status = 1 AND sp.manhasanxuat = ?" +
+        "GROUP BY sp.id " +
+        "ORDER BY sp.id DESC;",[req.params.id],function(err,data){
+           if(err) throw err ;
+           console.log(data);
+           res.render("product",{data:data});
+        })
+    }
 
 
 }

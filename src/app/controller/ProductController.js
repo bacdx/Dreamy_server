@@ -31,29 +31,45 @@ class ProductController {
           con.query("SELECT * FROM anh_san_pham WHERE masanpham = ?",[req.params.id],function(err,result1){
             if(err) throw err ;
             console.log(result1);
-            con.query("SELECT SUM(soluong) AS total_soluong FROM chi_tiet_nhap WHERE masanpham = ?;",[req.params.id],function(err,result2){
+            con.query(' SELECT SUM(chi_tiet_hoa_don.soluong)  AS total_soluong '+
+            'FROM chi_tiet_hoa_don '+
+            'JOIN chi_tiet_san_pham ON chi_tiet_hoa_don.mactsanpham = chi_tiet_san_pham.id '+
+            'JOIN hoa_don_khach_hang ON chi_tiet_hoa_don.mahoadon = hoa_don_khach_hang.id '+
+            'WHERE chi_tiet_san_pham.masanpham = ? AND hoa_don_khach_hang.trangthai = 5; '
+            ,[req.params.id],function(err,result2){
               if(err) throw err ;
               console.log("Total :" ,result2[0].total_soluong);
-              res.render('product-view',{result:result,result1:result1,result2:result2[0].total_soluong})
+              console.log("img :" ,result1[0].img);
+              con.query("SELECT  bl.* , kh.hoten   FROM binh_luan bl "+
+              "JOIN khachhang kh ON bl.makhachhang = kh.id "+
+              "where bl.masanpham = ? ;",[req.params.id],function(err,result3){
+                if(err) throw err ;
+                console.log("bl :" ,result3);
+                res.render('product-view',{result:result,result1:result1,result2:result2[0].total_soluong , img : result1[0].img,binhluan : result3})
+              })
+                
+              
+             
             })
           })
           
         })
   }
-    async view(req,res){
-        con.query("SELECT sp.*, MIN(asp.img) as img, lsp.ten  as ten_loai_san_pham ,nsx.name "+
-   " FROM san_pham sp " +
-   "JOIN anh_san_pham asp ON sp.id = asp.masanpham "+
-   "JOIN loai_san_pham lsp ON sp.maloai = lsp.id "+
-   "JOIN nha_san_xuat nsx ON sp.manhasanxuat = nsx.id "+
-   "WHERE sp.status = 1 " +
-   "GROUP BY sp.id;",function(err,data){
-       if(err) throw err ;
-       console.log(data);
-       res.render("product",{data:data});
+  async view(req,res){
+    con.query("SELECT sp.*, MIN(asp.img) as img, lsp.ten  as ten_loai_san_pham ,nsx.name "+
+" FROM san_pham sp " +
+"JOIN anh_san_pham asp ON sp.id = asp.masanpham "+
+"JOIN loai_san_pham lsp ON sp.maloai = lsp.id "+
+"JOIN nha_san_xuat nsx ON sp.manhasanxuat = nsx.id "+
+"WHERE sp.status = 1 " +
+"GROUP BY sp.id " +
+"ORDER BY sp.id DESC;",function(err,data){
+   if(err) throw err ;
+   console.log(data);
+   res.render("product",{data:data});
 })
+}
 
-    }
    
    async form(req,res){
     con.query("SELECT * FROM nha_san_xuat WHERE status = 1", function(err, result1) {
