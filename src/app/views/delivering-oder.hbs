@@ -1,19 +1,19 @@
 <nav aria-label="breadcrumb mt-2">
    <ul class="nav nav-tabs mt-2">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/oder">Chờ Xác Nhận</a>
+    <a class="nav-link " href="/oder">Chờ Xác Nhận</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/oder/confirm">Đã xác nhận</a>
+    <a class="nav-link "  href="/oder/confirm">Đã xác nhận</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/oder/delivering">Đang giao</a>
+    <a class="nav-link active" aria-current="page" href="/oder/delivering">Đang giao</a>
   </li>
    <li class="nav-item">
-    <a class="nav-link" href="/oder/delivered">Đã giao</a>
+    <a class="nav-link "  href="/oder/delivered">Đã giao</a>
   </li>
    <li class="nav-item">
-    <a class="nav-link"  href="/oder/cancel">Đã hủy</a>
+    <a class="nav-link "  href="/oder/cancel">Đã hủy</a>
   </li>
   
 </ul>
@@ -46,8 +46,6 @@
         <td>{{this.tongtien}}</td>
       <td class="text-end">
            <a href="/oder/view/{{this.id}}" type="button" class="btn btn-secondary mb-1" ><i class="bi bi-eye"></i> Xem chi tiết</a>
-         <a href="/oder/confirm/{{this.id}}" type="button" class="btn btn-success btn-small mb-1" onclick="return confirm('Xác nhận đơn hàng của {{this.username}} ?')"><i class="fas fa-check"></i> Xác Nhận</a>
-        <a href="/oder/cancel/{{this.id}}" type="button" class="btn btn-danger btn-small" onclick="return confirm('Hủy đơn hàng của {{this.username}} ? ')"><i class="fas fa-window-close"></i> Hủy đơn</a>
       </td>
       {{/each}}
     </tr>
@@ -55,7 +53,3 @@
 
   </tbody>
 </table>
-
-
-
-

@@ -1,23 +1,43 @@
-{{#each result}}
-    <h3 class="text-center mt-2">Sản phẩm : {{this.ten}}</h3>
-    {{/each}}
-    {{#each result1}}
-    <img src="{{this.img}}" alt="" srcset="" style="width: 200px%; height: 200px;" class="img-fluid img-thumbnail ms-2 rounded text-center mt-2">
-  
+<div class="container mt-2">
+  <div class="row align-items-start">
+    <div class="col">
+    {{#if img}}
+    <img src="{{img}}" style="width: 800px%; height: 600px;" class="img-fluid img-thumbnail ms-2 rounded text-center mt-2">
+    {{/if}}
+    </div>
+   
+    <div class="col">
+         {{#each result}}
+        <p class="fs-1 fw-semibold">Tên sản phẩm : {{this.ten}}</p>
+        
+       
+        <p class="fs-2 text-danger fw-semibold fst-italic">{{this.gia}}₫</p>
+        <p class="fs-3">Mô tả : {{this.ghichu}}</p>
+        <p class="fs-3">Color : {{this.colors}}</p>
+        <p class="fs-3">Size : {{this.sizes}}</p>
+        {{/each}}
+        {{#if result2}}
+        <p class="fs-3">{{result2}} Đã bán</p>
+        {{else}}
+        <p class="fs-3">0 Đã bán</p>
+        {{/if}}
+    </div>
+
+    
+  </div>
+</div>
+<div class="ms-5">
+{{#each result1}}
+<img src="{{this.img}}" style="width: 150px%; height: 107px;" class="img-fluid img-thumbnail ms-2 rounded text-center mt-2">
 {{/each}}
-{{#each result}}
-    <h3 class="ms-2 mt-1">Loại : {{this.ten_loai_san_pham}}</h3>
-
-    <h3 class="ms-2 mt-1">Nhà sản xuất : {{this.name}}</h3>
-    <h3 class="ms-2 mt-1">Giá : {{this.gia}} VNĐ</h3>
-    <h3 class="ms-2 mt-1">Size : {{this.sizes}}</h3>
-    <h3 class="ms-2 mt-1">Màu : {{this.colors}}</h3>
-    <h3 class="ms-2 mt-1">Số lượng : {{this.total_soluong}}</h3>
+</div>
+<div class="p-3 mb-2 bg-body-secondary mt-2">
+<p class="fs-4 ms-2 mt-2">Bình luận :</p>
+{{#each binhluan}}
+    <div class="p-3 mb-2 bg-body-tertiary">
+   <p>Khách hàng : {{this.hoten}} </p>
+   <p>Thời gian : {{this.thoigian}} </p>
+   <p>Nội dung : {{this.content}}</p>
+   </div>
 {{/each}}
-{{#if result2}}
-<h3 class="ms-2 mt-1">Đã bán : {{result2}}</h3>
-{{else}}
-
-<h3 class="ms-2 mt-1">Đã bán : 0</h3>
-{{/if}}
-
+</div>

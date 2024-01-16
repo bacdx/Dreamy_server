@@ -1,0 +1,29 @@
+<table class="table table-bordered mt-4 text-center" >
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">STT</th>
+       <th scope="col">Tên sản phẩm</th>
+        <th scope="col">IMAGES</th>
+      <th scope="col">Size</th>
+      <th scope="col">Màu</th>
+      <th scope="col">Số lượng</th>
+    </tr>
+  </thead>
+  <tbody>
+      {{#each relsult}}
+    <tr>
+       
+      <th scope="row">{{inc @index}}</th>
+      <td>{{this.san_pham_ten}}</td>
+       <td><img src="{{this.anh_san_pham_img}}" style="width: 100px%; height: 150px;" alt=""></td>
+
+      <td>{{this.size_title}}</td>
+     <td>{{this.color_title}}</td>
+     <td>{{this.soluong}}</td>
+     
+     
+    </tr>
+    {{/each}}
+
+  </tbody>
+</table>

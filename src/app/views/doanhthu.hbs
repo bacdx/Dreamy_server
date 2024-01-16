@@ -60,9 +60,7 @@
       {{/if}}
     </div>
   </div>
-</div
-
->
+</div>
 
 <div class="grid text-center mt-3">
   <div class="g-col-4">
@@ -103,24 +101,24 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">Top</th>
-      <th scope="col">Tên Sản Phẩm</th>
       <th scope="col">Ảnh</th>
-      <th scope="col">Số lượng bán</th>
+      <th scope="col">Tên Sản Phẩm</th>
+      <th scope="col">Loại SP</th>
       <th scope="col">Giá bán</th>
-      
+       <th scope="col">Số lượng bán</th>
    
     </tr>
   </thead>
-    {{#each data1}}
-  <tbody>
    
+  <tbody>
+    {{#each data1}}
     <th scope="row">{{inc @index}}</th>
-      <td>{{this.ten}}</td>
-      <td><img src="{{this.img}}" style="width: 100px%; height: 150px;" alt=""></td>
-    <td>{{this.total}}</td>
-    
-      <td>{{this.gia}}</td>
-
+      
+      <td><img src="{{this.anh_san_pham_img}}" style="width: 100px%; height: 150px;" alt=""></td>
+      <td>{{this.ten_san_pham}}</td>
+      <td>{{this.ten_loai_san_pham}}</td>
+      <td>{{this.gia_san_pham}}</td>
+      <td>{{this.tong_soluong}}</td>
    
     
   </tbody>
@@ -144,7 +142,7 @@
         labels: productLabels,
         datasets: [
           {
-            label: 'Total Sales',
+            label: 'Total Sales (VND)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: 'rgba(75, 192, 192, 1)',
             data: productValues,

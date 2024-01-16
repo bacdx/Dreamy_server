@@ -28,8 +28,7 @@ let validateProductImg = () => {
     return [
       check('title', 'Không được để trống tên màu').not().isEmpty(),
       check('img', 'Không được để trống ảnh').not().isEmpty(),
-      check('img', 'Link ảnh phải kết thúc bằng .jpeg, .jpg hoặc .png')
-      .custom((value, { req }) => value.endsWith('.jpeg') || value.endsWith('.jpg') || value.endsWith('.png'))
+      
     ];
   }
   let validateProductVariant = () => {
