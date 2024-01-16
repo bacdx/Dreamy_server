@@ -7,6 +7,8 @@ const { v1: uuid } = require('uuid'); // npm install uuid
 const moment = require('moment'); // npm install moment
 const { response } = require('express');
 const { resolve } = require('path');
+const e = require('express');
+const { Console } = require('console');
 const axios = require('axios').default; // npm install axios
 class ApiConController {
     async getLoaiSanPham(req, res) {
@@ -44,20 +46,54 @@ class ApiConController {
         console.log(masanpham);
         const sql = "select * from chi_tiet_san_pham where masanpham=?";
         con.query(sql, [masanpham], (err, result, fields) => {
-            res.json(result);
             console.log(result)
+            res.json(result);
+           
         })
 
 
     }
     async getChitietSanPham1(req, res) {
-        const masanpham = req.params;
-        console.log(masanpham);
-        const sql = "select * from chi_tiet_san_pham where masanpham=? and masize =? and macolor =?";
-        con.query(sql, [masanpham], (err, result, fields) => {
-            res.json(result);
-            console.log(result)
+        // console.log("ok")
+        const params =req.body;
+        console.log(params)
+   
+
+
+        const listPromise=[];
+        const listdata=[];
+
+        const sql = "select * from chi_tiet_san_pham  where masanpham=? and masize =? and mamau =?";
+        // const sql1 = "select s.id,s.ten,s.manhasanxuat ,maloai,ngaynhap,ghichu,gia,khuyenmai,img from san_pham as s  left join anh_san_pham as a on s.id = a.masanpham where s.id=? group by s.id  ;";
+
+        for(var i = 0; i < params.length; i++){
+            const currentParam = params[i];
+           
+            const promise=new Promise((resolve,reject)=>{
+               
+                con.query(sql,[currentParam.maSanPham,currentParam.maSize,currentParam.maColor], (err, result, fields) => {
+                    // console.log(i)
+                    // console.log(result)
+               currentParam.productDetal=result;
+               resolve(result.length > 0 ? result[0] : {});
+               
+              
+                    
+                })
+                
+               
+            })
+            listPromise.push(promise);
+        }
+        Promise.all(listPromise).then((data)=>{
+            console.log("start")
+             const filteredData = data.filter((item) => Object.keys(item).length !== 0);
+             console.log(filteredData)
+             console.log("end")
+             res.json(filteredData)
+              
         })
+        
 
 
     }
@@ -121,13 +157,14 @@ class ApiConController {
     async getSanPham2(req, res) {
      try{
         const ids = req.query.id;
+        // console.log(ids)
         const sql = "SELECT s.*, img FROM san_pham AS s LEFT JOIN anh_san_pham AS a ON s.id = a.masanpham WHERE s.id = ? GROUP BY s.id";
         const data = []
         const listP = [];
         for (var i = 0; i < ids.length; i++) {
             const promise = new Promise(resolve => {
                 con.query(sql, [ids[i]], (err, result) => {
-                    console.log(err);
+                   
                     data.push(result[0]);
                     resolve(result[0]);
                 }); // Using destructuring to get the first row
@@ -136,7 +173,7 @@ class ApiConController {
             listP.push(promise);
         }
         Promise.all(listP).then(resolve => {
-            console.log(data);
+            // console.log(data);
             res.json(data);
         })
     }catch(err) {
@@ -230,21 +267,13 @@ class ApiConController {
             }
         }
     }
+    async getHuyDon(req, res, ) {
+        
 
-    async getDonHangbyIdAccount(req, res) {
-        let query = req.query;
-        let where = "where ";
-
-        if (query.makhachhang != undefined, query.makhachhang != null) {
-            where += "makhachhang=" + query.makhachhang;
-        }
-
-
-
-        const sql = "select k.hoten, h.id,h.address,DATE_FORMAT(h.thoigian, '%m-%d-%Y %H:%i:%s') as thoigian ,h.tongtien,h.trangthai from khachhang as k inner join hoa_don_khach_hang as h on k.id=h.makhachhang   " + where + " ;";
+        const sql = "update hoa_don_khach_hang set trangthai=3 where id=? and trangthai=0 ";
         console.log(sql);
-        con.query(sql, function (err, result, fields) {
-
+        con.query(sql,[req.query.id] ,function (err, result, fields) {
+            console.log(result)
             const data = result;
 
             if (data == undefined) {
@@ -283,11 +312,65 @@ class ApiConController {
 
 
     }
+    
+    async getDonHangbyIdAccount(req, res) {
+        let query = req.query;
+        let where = "where ";
+
+        if (query.makhachhang != undefined, query.makhachhang != null) {
+            where += "makhachhang=" + query.makhachhang;
+        }
+
+
+
+        const sql = "select k.hoten, h.id,h.address,DATE_FORMAT(h.thoigian, '%m-%d-%Y %H:%i:%s') as thoigian ,h.tongtien,h.trangthai from khachhang as k inner join hoa_don_khach_hang as h on k.id=h.makhachhang   " + where + " ;";
+        console.log(sql);
+        con.query(sql, function (err, result, fields) {
+
+            const data = result;
+
+            if (data == undefined) {
+                const error = {
+                    error: "Product not found"
+                }
+                res.json(error);
+            } else {
+
+                console.log(data);
+                res.json(data);
+
+            }
+
+
+        })
+
+    }
+    
+
+    async getChiTietHoaDonKhachHang(req, res) {
+        console.log(req);
+
+        const query = req.query;
+        const sql = "select * from chi_tiet_hoa_don as c  inner join hoa_don_khach_hang as h on c.mahoadon=h.id where mahoadon=?";
+        con.query(sql, [query.mahoadon], function (err, result, fields) {
+
+
+            console.log(result);
+            res.json(result);
+
+
+        })
+
+
+
+
+
+    }
     async getChiTietHoaDonKhachHang2(req, res) {
         console.log(req);
 
         const query = req.query;
-        const sql = "select * from chi_tiet_hoa_don where mahoadon=?";
+        const sql = "select c.*, s.ten,n.name,a.img ,cl.title as mau,sz.title as size from chi_tiet_hoa_don as c join anh_san_pham as a on c.masanpham=a.masanpham left join san_pham as s on s.id=c.masanpham left join nha_san_xuat as n on n.id=s.manhasanxuat inner join color as cl on c.mamau=cl.id inner join size as sz on c.masize= sz.id  where c.mahoadon=? group by c.id;        ";
         con.query(sql, [query.mahoadon], function (err, result, fields) {
 
             console.log(result);
@@ -569,6 +652,7 @@ class ApiConController {
 
     }
     async createOrder(req, res) {
+        console.log("Create Order")
         let date_time = new Date();
 
         // get current date
@@ -634,19 +718,22 @@ class ApiConController {
             .then(response => {
 
                 con.beginTransaction;
-                const sqlCreateBuild = "insert into hoa_don_khach_hang (thoigian,tongtien,trangthai,makhachhang) values (?,?,?,?)";
+                const sqlCreateBuild = "insert into hoa_don_khach_hang (thoigian,tongtien,trangthai,makhachhang,address) values (?,?,?,?,?)";
                 const sqlUpdateBuild = "update hoa_don_khach_hang set trangthai =0 where id=?";
-                con.query(sqlCreateBuild, [time, order.amount, 4, order.app_user], (err, results, fields) => {
+                con.query(sqlCreateBuild, [time, order.amount, 4, order.app_user,result.address], (err, results, fields) => {
                     const resId = results.insertId;
-
-                    const sqlCreateBuildDetal = "insert into chi_tiet_hoa_don (mahoadon,mactsanpham,masize,mamau,soluong,dongia) values (?,?,?,?,?,?)";
+                    console.log("Insertid:"+ results.insertId)
+                    const sqlCreateBuildDetal = "insert into chi_tiet_hoa_don (mahoadon,mactsanpham,masanpham,masize,mamau,soluong,dongia) values (?,?,?,?,?,?,?)";
                     const sqlUpdate = "update chi_tiet_san_pham set soluong=soluong - ? where id=? and masize=? and mamau=?";
 
 
                     for (let i = 0; i < item.length; i++) {
                         console.log(i);
-                        con.query(sqlCreateBuildDetal, [resId, item[i].maCTSanPham, item[i].masize, item[i].mamau, item[i].soLuong, item[i].donGia])
+                        con.query(sqlCreateBuildDetal, [resId, item[i].maCTSanPham,item[i].maSanPham, item[i].masize, item[i].mamau, item[i].soLuong, item[i].donGia],(fields)=>{
+                            console.log(fields)
+                        })
                         con.query(sqlUpdate, [item[i].soLuong, item[i].maCTSanPham, item[i].masize, item[i].mamau])
+
 
                     }
                     con.query(sqlUpdateBuild, [resId])
@@ -707,7 +794,7 @@ class ApiConController {
 
 
     async pay(require, response) {
-
+        console.log("Pay")
         console.log(require.query)
         if (require.query.statusCode == '0') {
             const sql = "update hoa_don_khach_hang set trangthai=0 where id=?"
@@ -716,6 +803,8 @@ class ApiConController {
             console.log("Ok");
 
         }
+
+        // hoan tra
         else if (require.query.statusCode == '1') {
             const sqlSelectCTHD = "select a.id,a.mactsanpham,a.soluong from chi_tiet_hoa_don as a inner join hoa_don_khach_hang as h on a.mahoadon=h.id where a.mahoadon=? and h.trangthai=4";
             const sqlHoanTraSoLuong = "update chi_tiet_san_pham set soluong=soluong+? where id=?"
@@ -731,6 +820,8 @@ class ApiConController {
             });
 
         }
+
+
         else {
             const sqlSelectCTHD = "select a.id,a.mactsanpham,a.soluong from chi_tiet_hoa_don as a inner join hoa_don_khach_hang as h on a.mahoadon=h.id where a.mahoadon=? and h.trangthai=4";
             const sqlHoanTraSoLuong = "update san_pham set soluong=soLuong+? where id=?"
@@ -744,8 +835,10 @@ class ApiConController {
 
             });
         }
+        
         response.json(require.query.id)
     }
+
     async huyDon(req, res, next) {
         const idBill = req.body;
         const check = "select * from hoa_don_khach_hang where id=? and trang thai=3";

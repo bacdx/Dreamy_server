@@ -11,12 +11,13 @@ router.get("/sanpham1",ApiController.getSanPham1); //  http://localhost:3000/api
 router.get("/sanpham2",ApiController.getSanPham2); //  http://localhost:3000/api/sanpham2?id=1
 router.get("/search",ApiController.getSearch); //  http://localhost:3000/api/search
 router.get("/chitietsanpham",ApiController.getChitietSanPham); //  http://localhost:3000/api/chitietsanpham?masanpham=1
-router.get("/chitietsanpham1",ApiController.getChitietSanPham1); //  http://localhost:3000/api/chitietsanpham1
+router.post("/chitietsanpham1",ApiController.getChitietSanPham1); //  http://localhost:3000/api/chitietsanpham1
 router.get("/colors",ApiController.getColorbyMaSanPham)// can truyen ma sp vd http://localhost:3000/api/colors?masp=1
 router.get("/sizes",ApiController.getSizeByMaSanPham)// can truyen ma sp vd http://localhost:3000/api/sizes?masp=7
 router.get("/comments",ApiController.getCommentsByMaSanPham)// can truyen masp vd http://localhost:3000/api/comments?masanpham=1
 router.get("/medias",ApiController.getContentsByMaBinhLuan) // can truyen masp vd http://localhost:3000/api/medias?mabinhluan=3
 router.get("/donhangs",ApiController.getDonHangbyIdAccount)//  can truyen masp vd http://localhost:3000/api/donhangs?makhachhang=1
+router.get("/huydon",ApiController.getHuyDon)//  can truyen masp vd http://localhost:3000/api/donhangs?makhachhang=1
 router.get("/chitietdons",ApiController.getChiTietHoaDonKhachHang2) //  vd http://localhost:3000/api/chitietdons?mahoadon=1
 router.get("/top",ApiController.Top) // vd http://localhost:3000/api/top
 router.get("/favorite",ApiController.Favorite) //  vd http://localhost:3000/api/favorite?makhachhang=1
