@@ -40,7 +40,7 @@ router.get("/editSizeFirm/:id",productController.editSize)
 router.post("/editSize/:id",validate.validateProductSize(),productController.editSizeFirm)
 router.get("/deleteSize/:id",productController.deleteSize)
 
-// router.get("/",productController.index) //http://localhost:3000/product
-// router.post("/",productController.index)
+// binhluan
+router.get("/deletebl/:id",productController.deletebl)
 
 module.exports=router

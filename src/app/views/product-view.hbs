@@ -31,13 +31,22 @@
 <img src="{{this.img}}" style="width: 150px%; height: 107px;" class="img-fluid img-thumbnail ms-2 rounded text-center mt-2">
 {{/each}}
 </div>
+
 <div class="p-3 mb-2 bg-body-secondary mt-2">
 <p class="fs-4 ms-2 mt-2">Bình luận :</p>
 {{#each binhluan}}
-    <div class="p-3 mb-2 bg-body-tertiary">
-   <p>Khách hàng : {{this.hoten}} </p>
-   <p>Thời gian : {{this.thoigian}} </p>
-   <p>Nội dung : {{this.content}}</p>
-   </div>
+<div class="container  mt-3 p-3 mb-2 bg-body-tertiary">
+  <div class="row align-items-start">
+    <div class="col">
+      <p>Khách hàng : {{this.hoten}} </p>
+      <p>Thời gian : {{this.thoigian}} </p>
+      <p>Nội dung : {{this.content}}</p>
+    </div>
+    <div class="col">
+      <a href="/product/deletebl/{{this.id}}" type="button" class="btn btn-light btn-small" onclick="return confirm('Bạn có chắc muốn xóa không ?')"><i class="fas fa-trash"></i> Delete</a>
+    </div>
+   
+  </div>
+</div>
 {{/each}}
 </div>
