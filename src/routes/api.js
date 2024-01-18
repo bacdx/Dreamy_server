@@ -17,24 +17,25 @@ router.get("/sizes",ApiController.getSizeByMaSanPham)// can truyen ma sp vd http
 router.get("/comments",ApiController.getCommentsByMaSanPham)// can truyen masp vd http://localhost:3000/api/comments?masanpham=1
 router.get("/medias",ApiController.getContentsByMaBinhLuan) // can truyen masp vd http://localhost:3000/api/medias?mabinhluan=3
 router.get("/donhangs",ApiController.getDonHangbyIdAccount)//  can truyen masp vd http://localhost:3000/api/donhangs?makhachhang=1
-router.get("/huydon",ApiController.getHuyDon)//  can truyen masp vd http://localhost:3000/api/donhangs?makhachhang=1
 router.get("/chitietdons",ApiController.getChiTietHoaDonKhachHang2) //  vd http://localhost:3000/api/chitietdons?mahoadon=1
 router.get("/top",ApiController.Top) // vd http://localhost:3000/api/top
 router.get("/favorite",ApiController.Favorite) //  vd http://localhost:3000/api/favorite?makhachhang=1
-
+router.get("/huydon",ApiController.huyDon);         //    http://localhost:3000/api/huydon?id=20
 
 
 // router.get("/:id",ApiController.getLoaiSanPham)
 
 //post
 router.post("/comments",ApiController.getCommentsByMaSanPham)// can truyen masp vd http://localhost:3000/api/comments?masanpham=7
+router.post("/postcomment",ApiController.PostCommentMaSanPham)// can truyen masp vd http://localhost:3000/api/comments?masanpham=7
+router.post("/danhgia",ApiController.PostDanhGiaMaSanPham)// can truyen masp vd http://localhost:3000/api/comments?masanpham=7
+
 router.post("/medias",ApiController.getContentsByMaBinhLuan) // can truyen masp vd http://localhost:3000/api/medias?mabinhluan=3
 router.post("/signin",ApiController.Signin); 
 router.post("/update",ApiController.UpdateAccount); 
 router.post("/login",ApiController.Login); 
 router.post("/pay",ApiController.pay);   //http://localhost:3000/api/pay?statusCode=1&id=14
 router.post("/order",ApiController.createOrder);
-router.post("/khachhanghuydon",ApiController.huyDon);
 router.post("/nhanvienhuydon",ApiController.huyDonnv);
 router.post("/changefavorite",ApiController.changeFav);
                        

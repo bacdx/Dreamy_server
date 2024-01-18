@@ -126,14 +126,14 @@ class ApiConController {
 // =======
         const id = req.query.id;
         // console.log(req.query);
-        const sql = "select s.id,s.ten,s.manhasanxuat ,ngaynhap,ghichu,gia,img from san_pham as s  left join anh_san_pham as a on s.id = a.masanpham  where s.id> ? group by s.id limit 10 ;    "
+        const sql = "select s.id,s.ten,s.manhasanxuat ,ngaynhap,ghichu,gia,img,avg(d.sosao) as danhGia from san_pham as s  left join anh_san_pham as a on s.id = a.masanpham left join danh_gia as d on s.id=d.masanpham  where s.id> ? group by s.id limit 10 ;    "
 
         con.query(sql, [Number.parseInt(id)], function (err, result, fields) {
 
             const data = result;
 
 
-
+                    console.log(data);
                     res.json(data);
 
                 //}
@@ -145,7 +145,7 @@ class ApiConController {
 
     async getSanPham1(req, res) {
         const id = req.query.id;
-        const sql = "select s.id,s.ten,s.manhasanxuat ,maloai,ngaynhap,ghichu,gia,khuyenmai,img from san_pham as s  left join anh_san_pham as a on s.id = a.masanpham where s.id=? group by s.id  ;    "
+        const sql = "select s.id,s.ten,s.manhasanxuat ,maloai,ngaynhap,ghichu,gia,khuyenmai,img, avg(d.sosao) as danhGia from san_pham as s  left join anh_san_pham as a on s.id = a.masanpham left join danh_gia as d on s.id=d.masanpham  where s.id=? group by s.id  ;    "
 
 
         con.query(sql, [id], function (err, result, fields) {
@@ -270,6 +270,45 @@ class ApiConController {
 
             }
         }
+    }
+    async PostCommentMaSanPham(req, res) {
+        const body = req.body;
+        console.log(body);
+        let date_time = new Date();
+
+        // get current date
+        // adjust 0 before single digit date
+        let date = ("0" + date_time.getDate()).slice(-2);
+
+        // get current month
+        let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
+
+        // get current year
+        let year = date_time.getFullYear();
+
+        // get current hours
+        let hours = date_time.getHours();
+
+        // get current minutes
+        let minutes = date_time.getMinutes();
+
+        // get current seconds
+        let seconds = date_time.getSeconds();
+        const time = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+        const sql= "insert into binh_luan  (makhachhang,content,thoigian,masanpham) values(?,?,?,?)"
+       con.query(sql, [body.makhachhang,body.content,time,body.masanpham,],(err, results)=>{
+                console.log(err, results);
+       })
+       
+    }
+    async PostDanhGiaMaSanPham(req, res) {
+        const body = req.body;
+        console.log(body);
+        const sql= "insert into danh_gia (makhachhang,sosao,masanpham) values(?,?,?)"
+        con.query(sql, [body.maKhachHang,body.soSao,body.maSanPham],(err, results) => {
+            console.log(err, results)
+        })
+       
     }
 
     async getContentsByMaBinhLuan(req, res) {
@@ -426,7 +465,7 @@ class ApiConController {
 
 
 
-        const sql = "select * from san_pham as s left join nha_san_xuat as n   on s.manhasanxuat=n.id left join anh_san_pham as a on a.masanpham=s.id " + where + " group by s.id   limit 20;";
+        const sql = "select s.id,s.ten,s.manhasanxuat ,ngaynhap,ghichu,gia,a.img,avg(d.sosao) from san_pham as s left join nha_san_xuat as n   on s.manhasanxuat=n.id left join anh_san_pham as a on a.masanpham=s.id left join danh_gia as d on  s.id=d.masanpham " + where + " group by s.id   limit 20;";
         console.log(sql);
         con.query(sql, [], function (err, result, fields) {
 
@@ -841,7 +880,7 @@ class ApiConController {
 
         // hoan tra
         else if (require.query.statusCode == '1') {
-            const sqlSelectCTHD = "select a.id,a.mactsanpham,a.soluong from chi_tiet_hoa_don as a inner join hoa_don_khach_hang as h on a.mahoadon=h.id where a.mahoadon=? and h.trangthai=4";
+            const sqlSelectCTHD = "select a.id,a.mactsanpham,a.soluong from chi_tiet_hoa_don as a inner join hoa_don_khach_hang as h on a.mahoadon=h.id where a.mahoadon=? and h.trangthai=-1";
             const sqlHoanTraSoLuong = "update chi_tiet_san_pham set soluong=soluong+? where id=?"
             con.query(sqlSelectCTHD, [require.query.id], (err, results) => {
                 console.log(results);
@@ -875,29 +914,20 @@ class ApiConController {
     }
 
     async huyDon(req, res, next) {
-        const idBill = req.body;
-        const check = "select * from hoa_don_khach_hang where id=? and trang thai=3";
-        const sql = "update hoa_don_khach_hang set trangthai= 3 where id=?";
-        const promiseCheck = new Promise((resolve, reject) => {
-            con.query(check, [idBill], (req, res, next) => {
-                if (req != null) {
-                    resolve(req)
-                }
-            })
-        })
-
-        promiseCheck.then((res) => {
+        const sql = "update hoa_don_khach_hang set trangthai= 3 where id=? and trangthai=0";
+        const idBill = req.query.id;
             con.query(sql, [idBill], (data, err) => {
-                if (err != null || data != undefined) {
-                    res.status(-400).json(err);
+                console.log(err)
+                console.log("adasd")
+                console.log("sdfsdfsdgsdz")
+                if (err == null || data != undefined) {
+                    res.json({id:data.changedRows.toString()});
+                    console.log(data.changedRow)
                 } else {
-                    res.status(200).json(data);
+                    res.json({id:err.changedRows.toString()})
+                    console.log(err.changedRows)
                 }
             })
-        })
-
-
-
 
     }
     async huyDonnv(req, res, next) {
@@ -916,9 +946,9 @@ class ApiConController {
         promiseCheck.then((res) => {
             con.query(sql, [idBill], (data, err) => {
                 if (err != null || data != undefined) {
-                    res.status(-400).json(err);
+                    res.json(err);
                 } else {
-                    res.status(200).json(data);
+                    res.json(data);
                 }
             })
         })
