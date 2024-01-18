@@ -45,6 +45,7 @@
         <td>{{this.mavandon}}</td>
         <td>{{this.tongtien}}</td>
       <td class="text-end">
+            <a href="/oder/done/{{this.id}}" type="button" class="btn btn-success btn-small mb-1" onclick="return confirm('Xác nhận đơn hàng của {{this.username}} đã giao xong ?')"><i class="fas fa-check"></i> Đã giao xong</a>
            <a href="/oder/view/{{this.id}}" type="button" class="btn btn-secondary mb-1" ><i class="bi bi-eye"></i> Xem chi tiết</a>
       </td>
       {{/each}}

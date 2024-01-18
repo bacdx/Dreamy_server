@@ -474,8 +474,15 @@ class ProductController {
             })
        
     }
-
-
+    // xóa bình luân
+    async deletebl(req,res){
+ 
+      con.query("DELETE FROM binh_luan WHERE id = ?",[req.params.id],function(err,relsut){
+                  if(err) throw err;
+                  res.send("Da xoa binh luan thanh cong")
+              })
+         
+      }
 
 
 
