@@ -9,7 +9,9 @@ class OderController{
             con.query('SELECT  hd.* , kh.username '+
                        'FROM hoa_don_khach_hang hd '+
                         'JOIN khachhang kh ON hd.makhachhang = kh.id '+
+
                         'WHERE hd.trangthai = 0;',function(err,relsult){
+
                             if(err) throw err ;
                                 console.log("Total :" ,relsult);
                                
@@ -20,7 +22,9 @@ class OderController{
         // xác nhận đơn hàng
         async confirm(req,res){
             
-            con.query("UPDATE hoa_don_khach_hang SET trangthai = 1 WHERE id = ?",[req.params.id],
+
+            con.query("UPDATE hoa_don_khach_hang SET trangthai = 1 WHERE id=? and trangthai = 0",[req.params.id],
+
             function(err,relsut){
                if(err) throw err ;
              

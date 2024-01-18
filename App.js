@@ -8,17 +8,30 @@ const app = express();
 const { access } = require('fs');
 const path = require('path');
 const routes = require('./src/routes/route');
+const exphbs  = require('express-handlebars');
+
 
 var session = require('express-session');
 
 // Use the session middleware
+
+const bodyParser = require('body-parser')
+
 
 
 con.connect(function(err) {
   
   console.log(err);
 });
-const exphbs  = require('express-handlebars');
+
+
+
+
+app.use(bodyParser.json({limit:"50mb"}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+//set view engine
+
 
 const hbs = exphbs.create({
   // Specify helpers which are only registered on this instance.
