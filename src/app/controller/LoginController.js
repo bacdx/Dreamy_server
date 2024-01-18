@@ -24,7 +24,7 @@ class LoginController{
        console.log(data);
      if(data!=undefined){
       if(data.username==username&&data.matkhau==password){
-        res.redirect('/')
+        res.redirect('/product')
       }
      }else{
       res.render('login');

@@ -690,6 +690,7 @@ class ApiConController {
 
                     const data = new Promise((resolve, reject) => {
                         resolve(fs.readFileSync(result[0].avatar))
+                        console.log(result[0].avatar)
                     })
 
                     data.then(resolve => {

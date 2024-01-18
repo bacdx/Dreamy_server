@@ -4,7 +4,7 @@ class DoanhThuController{
     
         async doanhthu(req,res){
             
-             con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 5 ",[req.body.dayStart,req.body.dayEnd],
+             con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 3 ",[req.body.dayStart,req.body.dayEnd],
              function(err,relsut){
                 if(err) throw err ;
                 console.log("Total :" ,relsut[0].total);
@@ -35,28 +35,28 @@ class DoanhThuController{
             "JOIN  san_pham ON chi_tiet.mactsanpham = san_pham.id "+
             "JOIN  loai_san_pham ON san_pham.maloai = loai_san_pham.id "+
             "JOIN anh_san_pham anh ON san_pham.id = anh.masanpham "+
-            "WHERE  hoa_don.trangthai = 5 "+
+            "WHERE  hoa_don.trangthai = 3 "+
             "GROUP BY san_pham.id "+
             "ORDER BY tong_soluong DESC"+
             " LIMIT 10; ",function (err,data1) {
                 if(err) throw err ;
                 console.log(data1)
-                con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 5", [firstDayThisMonth, lastDayThisMonth],
+                con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 3", [firstDayThisMonth, lastDayThisMonth],
                 function(err, resultThisMonth){
                     if(err) throw err;
                     console.log("Total this month: ", resultThisMonth[0].total);
             
-                    con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 5", [firstDayLastMonth, lastDayLastMonth],
+                    con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 3", [firstDayLastMonth, lastDayLastMonth],
                     function(err, resultLastMonth){
                         if(err) throw err;
                         console.log("Total last month: ", resultLastMonth[0].total);
             
-                        con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 5", [today, today],
+                        con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 3", [today, today],
                         function(err, resultToday){
                             if(err) throw err;
                             console.log("Total today: ", resultToday[0].total);
             
-                            con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 5", [firstDayThisYear, lastDayThisYear],
+                            con.query("SELECT SUM(tongtien) AS total FROM hoa_don_khach_hang WHERE thoigian BETWEEN ? AND ? AND trangthai = 3", [firstDayThisYear, lastDayThisYear],
                             function(err, resultThisYear){
                                 if(err) throw err;
                                 con.query("SELECT  DATE_FORMAT(thoigian, '%Y-%m') AS Thang, " +
@@ -65,7 +65,7 @@ class DoanhThuController{
                                "WHERE "+
                                "thoigian >= DATE_FORMAT(NOW() - INTERVAL 5 MONTH, '%Y-%m-01') AND "+
                                "thoigian < DATE_FORMAT(NOW(), '%Y-%m-01') AND " +
-                               "  trangthai = 5 "+
+                               "  trangthai = 3 "+
                                "GROUP BY Thang "+
                                " ORDER BY Thang DESC;",
                                
@@ -73,8 +73,8 @@ class DoanhThuController{
                                function(err,relsultFiveMoth){
                                     if(err) throw err ;
                                     con.query("SELECT "+
-                                    "SUM(CASE WHEN trangthai = 3 THEN 1 ELSE 0 END) AS total_3," +
-                                    "SUM(CASE WHEN trangthai = 5 THEN 1 ELSE 0 END) AS total_4 " +
+                                    "SUM(CASE WHEN trangthai = 4 THEN 1 ELSE 0 END) AS total_3," +
+                                    "SUM(CASE WHEN trangthai = 3 THEN 1 ELSE 0 END) AS total_4 " +
                                     "FROM hoa_don_khach_hang;",function(err,resultThisOder){
                                         if(err) throw err ;
                                         console.log("Total this year: ", resultThisYear[0].total);
