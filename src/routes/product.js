@@ -38,4 +38,6 @@ router.post("/addSize",validate.validateProductSize(),productController.formSize
 router.get("/editSizeFirm/:id",productController.editSize)
 router.post("/editSize/:id",validate.validateProductSize(),productController.editSizeFirm)
 router.get("/deleteSize/:id",productController.deleteSize)
+// binhluan
+router.get("/deletebl/:id",productController.deletebl)
 module.exports=router
