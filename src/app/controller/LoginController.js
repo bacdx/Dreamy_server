@@ -18,12 +18,14 @@ class LoginController{
        console.log(data);
       if(data!=undefined){
       if(data.username==username&&data.matkhau==password){
+
         req.session.user={
           username: username,
           isAuthenticated: true
         }
         res.redirect("/product");
        
+n
       }
      }else{
       res.redirect('/login')

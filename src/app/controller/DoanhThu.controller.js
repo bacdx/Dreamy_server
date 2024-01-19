@@ -65,7 +65,7 @@ class DoanhThuController{
                                "WHERE "+
                                "thoigian >= DATE_FORMAT(NOW() - INTERVAL 5 MONTH, '%Y-%m-01') AND "+
                                "thoigian < DATE_FORMAT(NOW(), '%Y-%m-01') AND " +
-                               "  trangthai = 5 "+
+                               "  trangthai = 3 "+
                                "GROUP BY Thang "+
                                " ORDER BY Thang DESC;",
                                

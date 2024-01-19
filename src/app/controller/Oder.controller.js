@@ -10,7 +10,9 @@ class OderController{
                        'FROM hoa_don_khach_hang hd '+
                         'JOIN khachhang kh ON hd.makhachhang = kh.id '+
 
+
                         'WHERE hd.trangthai = 0;',function(err,relsult){
+
 
                             if(err) throw err ;
                                 console.log("Total :" ,relsult);
@@ -89,7 +91,7 @@ class OderController{
        async viewConfirm(req,res){
          const confirm = req.session.mesenger || 0;
             con.query('SELECT  hd.* , kh.username '+
-                       'FROM hoa_don_khach_hang hd '+
+                       'FROM hoa_don_khach_hang hd '+ 
                         'JOIN khachhang kh ON hd.makhachhang = kh.id '+
                         'WHERE hd.trangthai = 1;',function(err,relsult){
                             if(err) throw err ;

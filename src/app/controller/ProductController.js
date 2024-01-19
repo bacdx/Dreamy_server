@@ -58,7 +58,7 @@ class ProductController {
   async view(req,res){
     con.query("SELECT sp.*, MIN(asp.img) as img, lsp.ten  as ten_loai_san_pham ,nsx.name "+
 " FROM san_pham sp " +
-"JOIN anh_san_pham asp ON sp.id = asp.masanpham "+
+"LEFT JOIN anh_san_pham asp ON sp.id = asp.masanpham "+
 "JOIN loai_san_pham lsp ON sp.maloai = lsp.id "+
 "JOIN nha_san_xuat nsx ON sp.manhasanxuat = nsx.id "+
 "WHERE sp.status = 1 " +
@@ -235,6 +235,7 @@ class ProductController {
       
      }
      async editVariant(req,res){
+      
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         res.status(422).json({ errors: errors.array() });
