@@ -11,30 +11,30 @@ class LoginController{
        
         const{username,password}=req.body;
         console.log(username,password);
-
-// con.connect(function(err) {
-//     if (err) throw err;
-//     console.log();
-   
-// git commit server_login-ph20234-2/10/2023
     
-   con.query("select * from nhanvien where username like '" +username+ "' and matkhau like '"+password+"';",function(err,result,fields){
+        con.query("select * from nhanvien where username like '" +username+ "' and matkhau like '"+password+"';",function(err,result,fields){
 
-    const data=result[0]; 
+       const data=result[0]; 
        console.log(data);
-     if(data!=undefined){
+      if(data!=undefined){
       if(data.username==username&&data.matkhau==password){
-        res.redirect('/product')
+
+        req.session.user={
+          username: username,
+          isAuthenticated: true
+        }
+        res.redirect("/product");
+       
+n
       }
      }else{
-      res.render('login');
+      res.redirect('/login')
      }
     
 
         })
         
-          
-        res.render("login");
+        
     }
 
 
@@ -61,6 +61,17 @@ class LoginController{
      
         })
       
+    }
+    async logout(req,res){
+      req.session.destroy(err => {
+        if (err) {
+            // Xử lý lỗi nếu cần
+            console.log(err);
+        }
+
+        // Chuyển hướng người dùng về trang đăng nhập
+        res.redirect('/login');
+    });
     }
     
 }
