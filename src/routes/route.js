@@ -36,7 +36,7 @@ app.use("/doanhthu",doanhthu);
 app.use("/oder",oder);
 app.use("/customer",customer);
 app.get('/', function(req, res){
-    res.render('home')
+    res.render('login')
 
 })
 }

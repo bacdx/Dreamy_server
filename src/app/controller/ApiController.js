@@ -645,16 +645,22 @@ class ApiConController {
         try {
             con.beginTransaction();
             con.query(`SELECT * FROM khachhang WHERE username like ? and matkhau like ? `, [user.address, user.matkhau], function (err, result) {
-                console.log(err)
-
+              //  console.log(err)
+               // console.log(result)
                 if (result.length > 0) {
-
+                  //  console.log(result)
                     const data = new Promise((resolve, reject) => {
+                        
                         resolve(fs.readFileSync(result[0].avatar))
+                        console.log(result[0].avatar)
                     })
 
-                    data.then(resolve => {
-                        result[0].avatar = resolve.toString("base64").trim();
+                    data.then((reject,resolve) => {
+                        console.log(result[0])
+                     //   console.log(reject)
+
+                       result[0].avatar = resolve.toString("base64").trim();
+                       console.log(result[0].avatar)
                         res.status(200).json(result[0]);
                         return;
                     }).catch(err => {
